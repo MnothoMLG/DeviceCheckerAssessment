@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "858488715587",
+    "project_id": "kwikbite-268f5",
+    "storage_bucket": "kwikbite-268f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858488715587:android:eb3e5b7ad3333e594617f6",
+        "android_client_info": {
+          "package_name": "com.kwikbite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858488715587-n8phqiuccde1pqt2lvm1jg31a7uk70ec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1zRjcTrWNYuZi4bQ933mqvCDnP75OZTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "858488715587-n8phqiuccde1pqt2lvm1jg31a7uk70ec.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
