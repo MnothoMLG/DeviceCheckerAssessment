@@ -7,17 +7,16 @@ import {Fonts} from '../../constants';
 import {Colors} from '../../constants';
 import icons from '../../assets/icons';
 import PhoneIcon from '../../assets/icons/PhoneIcon';
-import navigation from '../../navigation';
 import {useNavigation} from '@react-navigation/native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {logout} from '../../redux/modules/auth/actions';
 import {useDispatch} from 'react-redux';
-
+import firestore from '@react-native-firebase/firestore';
 //The following code executes inside one of your component's methods, post render
-
+const usersCollection = firestore().collection('users');
 const Settings = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+
   const renderUserDetails = () => (
     <View
       style={{

@@ -1,28 +1,84 @@
 //import liraries
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
   Text,
+  Modal,
 } from 'react-native';
 import images from '../../assets/images';
 import {Image} from '../../components';
 import {Margin} from '../../components/layout/layout';
-
 import {Colors, shadow} from '../../constants';
+import sendSMS from '../../utils/sendAlert';
 import EmergencyCalling from '../EmergencyCalling';
+import firestore from '@react-native-firebase/firestore';
+import AddProfile from './AddProfile';
+import {updateProfile} from '../../redux/modules/auth/actions';
+import {useDispatch, useSelector} from 'react-redux';
+const usersCollection = firestore().collection('users');
 
 // create a component
 const HomeScreen = () => {
   const [showEmergency, setShow] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [profileVisible, showProfile] = useState(false);
+  const profile = useSelector(state => state.authReducer.profile);
+  const {number} = profile;
+  const dispatch = useDispatch();
+
+  const updateUserProfile = (name: string) => {
+    //call update profileaction
+    // dispatch(updateProfile({...profile, name}));
+    usersCollection
+      .doc(number)
+      .set({name})
+      .then(() => {
+        //show success flash message
+      });
+  };
+
+  useEffect(() => {
+    usersCollection.doc(number).onSnapshot(documentSnapshot => {
+      if (documentSnapshot.exists) {
+        console.log('User data: ', documentSnapshot.data());
+      } else {
+        showProfile(true);
+      }
+    });
+
+    usersCollection.get().then(querySnapshot => {
+      console.log('Total users: ', querySnapshot.size);
+
+      querySnapshot.forEach(documentSnapshot => {
+        console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+      });
+    });
+  });
 
   return [
     <SafeAreaView style={{backgroundColor: Colors.white}} />,
+    <Modal animationType="slide" visible={profileVisible}>
+      <AddProfile
+        closeModal={() => showProfile(false)}
+        updateProfile={updateUserProfile}
+      />
+    </Modal>,
     <EmergencyCalling onSafe={() => setShow(false)} visible={showEmergency} />,
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setShow(true)} style={styles.panic}>
+      <TouchableOpacity
+        onPress={() => {
+          sendSMS({
+            msg: 'this is a message from the front end',
+            emergencyContacts: ['none'],
+            number: '1',
+          });
+
+          // setShow(true);
+        }}
+        style={styles.panic}>
         <Image source={images.point} width={30} height={30} />
       </TouchableOpacity>
       <Margin marginTop={42} />
