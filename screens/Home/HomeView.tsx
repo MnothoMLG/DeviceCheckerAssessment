@@ -19,27 +19,45 @@ import AddProfile from './AddProfile';
 import {updateProfile} from '../../redux/modules/auth/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {storeContacts} from '../../redux/modules/contacts/actions';
+import {startLoading, endLoading} from '../../redux/modules/loading/actions';
 const usersCollection = firestore().collection('users');
 
 // create a component
 const HomeScreen = () => {
   const [showEmergency, setShow] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [touches, setTouches] = useState(0);
   const [profileVisible, showProfile] = useState(false);
-  const profile = useSelector(state => state.authReducer.profile);
+  const {profile, contacts} = useSelector(state => ({
+    profile: state.authReducer.profile,
+    contacts: state.contactsReducer.contacts,
+  }));
   const {number} = profile;
   const dispatch = useDispatch();
 
   const updateUserProfile = (name: string) => {
     //call update profileaction
-
+    dispatch(startLoading());
     usersCollection
       .doc(number)
       .set({name})
       .then(() => {
         //show success flash message
         dispatch(updateProfile({...profile, name}));
-      });
+      })
+      .finally(() => dispatch(endLoading()));
+  };
+
+  const fireAlert = () => {
+    dispatch(startLoading());
+    console.log('here sre the contacts ', contacts);
+    const nums = ['+27680189220', '+27 67 218 8754']; //contacts.map(c => c.number);
+    const {message} = profile;
+    console.log({nums, message});
+    sendSMS({
+      msg: 'message from the front to 3 numbers ', //message,
+      emergencyContacts: nums,
+    });
+    dispatch(endLoading());
   };
 
   useEffect(() => {
@@ -52,15 +70,7 @@ const HomeScreen = () => {
         showProfile(true);
       }
     });
-
-    usersCollection.get().then(querySnapshot => {
-      console.log('Total users: ', querySnapshot.size);
-
-      querySnapshot.forEach(documentSnapshot => {
-        console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-      });
-    });
-  });
+  }, []);
 
   return [
     <SafeAreaView style={{backgroundColor: Colors.white}} />,
@@ -74,13 +84,14 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          sendSMS({
-            msg: 'this is a message from the front end',
-            emergencyContacts: ['none'],
-            number: '1',
-          });
+          setTouches(prevState => prevState + 1);
 
-          // setShow(true);
+          console.log({touches});
+          if (touches >= 3) {
+            setShow(true);
+            setTouches(0);
+            fireAlert();
+          }
         }}
         style={styles.panic}>
         <Image source={images.point} width={30} height={30} />
@@ -93,7 +104,7 @@ const HomeScreen = () => {
       <Margin marginTop={22}>
         <Text style={styles.description}>
           {' '}
-          Your contacts and your organization will see your request for help
+          Your contacts will see your request for help
         </Text>
       </Margin>
     </View>,

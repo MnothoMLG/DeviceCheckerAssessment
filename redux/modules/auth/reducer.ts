@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   profile: {
     number: 'testnumberID',
     name: null,
-    message: '',
+    message: 'Hi, I need your help. Urgently. Here are my co-ordinates',
   },
 };
 

@@ -1,36 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PhoneIcon from '../../assets/icons/PhoneIcon';
 
 import {Text} from '../../components';
-import styles from '../../components/card/styles';
+import styles from './styles';
 import {Margin} from '../../components/layout/layout';
 import {Fonts, Metrics} from '../../constants';
+import { startLoading, endLoading } from '../../redux/modules/loading/actions';
 
 const EmergencyCalling = (props: {visible: any; onSafe: any}) => {
   const contacts = useSelector(state => state.contactsReducer.contacts);
-
   const {visible, onSafe} = props;
-  return [
+
+  return (
     <Modal
       animationType="slide"
       visible={visible}
       onRequestClose={() => {
         onSafe && onSafe();
       }}>
-      <View
-        style={{
-          justifyContent: 'space-between',
-          backgroundColor: '#FF2D55',
-          width: '100%',
-          flex: 1,
-          alignItems: 'center',
-          marginTop: Metrics.base * 5,
-          marginBottom: Metrics.base * 4.5,
-          paddingHorizontal: Metrics.base * 3,
-          paddingVertical: 20,
-        }}>
+      <View style={styles.container}>
         <View>
           <Text color="#fff" font={Fonts.displayBold}>
             Emergency Calling...
@@ -69,8 +59,8 @@ const EmergencyCalling = (props: {visible: any; onSafe: any}) => {
           <Text font={Fonts.buttonBold}>I am safe</Text>
         </TouchableOpacity>
       </View>
-    </Modal>,
-  ];
+    </Modal>
+  );
 };
 
 export default EmergencyCalling;

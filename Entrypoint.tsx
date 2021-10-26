@@ -47,12 +47,10 @@ const Entry = () => {
   return (
     <>
       <LoadingSpinner visible={loading} />
-      <StatusBar
-        backgroundColor={'#EC131C'}
-        barStyle="dark-content">
+      <StatusBar backgroundColor={'#EC131C'} barStyle="dark-content">
         {' '}
       </StatusBar>
-      {!authReducer.loggedIn ? <AuthStackNav /> : <Home />}
+      {!authReducer.loggedIn && false ? <AuthStackNav /> : <Home />} 
     </>
   );
 };

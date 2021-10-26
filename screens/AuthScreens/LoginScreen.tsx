@@ -8,7 +8,7 @@ import auth from '@react-native-firebase/auth';
 import {login, updateProfile} from '../../redux/modules/auth/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {endLoading, startLoading} from '../../redux/modules/loading/actions';
-import { Text } from '../../components';
+import {Text} from '../../components';
 
 export default function LoginScreen(): JSX.Element {
   const dispatch = useDispatch();
@@ -35,7 +35,8 @@ export default function LoginScreen(): JSX.Element {
     }
   }
 
-  const storeNumber = (number: string) => dispatch(updateProfile({number}));
+  const storeNumber = (number: string) =>
+    dispatch(updateProfile({number, name: ''}));
 
   return (
     <>

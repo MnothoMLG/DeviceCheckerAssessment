@@ -51,8 +51,7 @@ const Settings = () => {
       <View style={{paddingHorizontal: 16, justifyContent: 'center'}}>
         <Text color={Colors.overlayDark40}>Sifiso </Text>
         <View style={{height: 20, flexDirection: 'row', alignItems: 'center'}}>
-          <TouchableOpacity>
-          </TouchableOpacity>
+          <TouchableOpacity />
         </View>
       </View>
     </View>
