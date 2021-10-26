@@ -1,23 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Input from '../../components/Input';
 import {Formik} from 'formik';
 import {loginValidationSchema} from './Validation';
 import {Margin} from '../../components/layout/layout';
 
 import HeaderWrapper from '../../components/layout/back-screen';
-import {useDispatch} from 'react-redux';
-import {login} from '../../redux/modules/auth/actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {login, updateProfile} from '../../redux/modules/auth/actions';
+import {Text} from '../../components';
 
 export default function OTPScreen({navigation, route}): JSX.Element {
   const [loading, setLoading] = useState(false);
   useEffect(() => {}, []);
   const dispatch = useDispatch();
+  const profile = useSelector(state => state.authReducer.profile);
   return (
     <HeaderWrapper title={'OTP'}>
       <View style={styles.container}>
-        <Margin marginBottom={52}>
-          <Text>Enter the OTP sent by SMS to your phone number</Text>
+        <Margin style={{paddingHorizontal: 20}} marginBottom={52}>
+          <Text align="center">{`Enter the OTP sent by SMS to\n${profile.number}`}</Text>
         </Margin>
         <View style={styles.form}>
           <Formik
@@ -41,9 +43,13 @@ export default function OTPScreen({navigation, route}): JSX.Element {
                 />
                 <Margin marginTop={52} />
                 <TouchableOpacity
-                  onPress={() => dispatch(login())}
+                  onPress={() => {
+                    dispatch(login());
+                  }}
                   style={styles.continue}>
-                  <Text style={[styles.text, styles.textBold]}>Continue</Text>
+                  <Text styles={{text: [styles.text, styles.textBold]}}>
+                    Continue
+                  </Text>
                 </TouchableOpacity>
               </>
             )}
@@ -73,7 +79,7 @@ const styles = StyleSheet.create({
     width: 200,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FF2D5580',
+    backgroundColor: '#FF2D55',
     borderRadius: 5,
   },
   registerButtonsContainer: {

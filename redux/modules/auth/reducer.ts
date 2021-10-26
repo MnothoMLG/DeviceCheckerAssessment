@@ -5,16 +5,17 @@ import {login, logout, updateProfile} from './actions';
 const INITIAL_STATE = {
   loggedIn: false,
   profile: {
-    number: "testnumberID",
+    number: 'testnumberID',
     name: null,
+    message: '',
   },
 };
 
 export const authReducer = createReducer(INITIAL_STATE, builder => {
-  builder.addCase(login, (state) => {
+  builder.addCase(login, state => {
     return {...state, loggedIn: true};
   });
-  builder.addCase(logout, (state) => {
+  builder.addCase(logout, state => {
     return {...state, loggedIn: false};
   });
   builder.addCase(updateProfile, (state, action) => {

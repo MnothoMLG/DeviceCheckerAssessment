@@ -13,9 +13,26 @@ import {loginValidationSchema} from './Validation';
 import {Margin, Row} from '../../components/layout/layout';
 import {Text} from '../../components/';
 import {Fonts} from '../../constants';
+import {useDispatch, useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
+const usersCollection = firestore().collection('users');
 
-export default function AlertSettings(props: {closeModal: any}): JSX.Element {
+export default function AlertSettings(): JSX.Element {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const profile = useSelector(state => state.authReducer.profile);
+  const {number} = profile;
+
+  const updateDetails = (message: string) => {
+
+    usersCollection
+    .doc(number)
+    .update({message})
+    .then(() => {
+      //show success flash message
+      navigation.goBack();
+    });
+  }
   return (
     <View style={styles.container}>
       <SwitchSetting
@@ -28,7 +45,7 @@ export default function AlertSettings(props: {closeModal: any}): JSX.Element {
       />
       <View style={styles.form}>
         <Formik
-          initialValues={{number: '', name: ''}}
+          initialValues={{msg: ''}}
           onSubmit={() => null}
           validationSchema={loginValidationSchema}>
           {({handleChange, setFieldTouched, touched, errors, values}) => (
@@ -39,15 +56,15 @@ export default function AlertSettings(props: {closeModal: any}): JSX.Element {
                 placeholder="The message that gets sent to your contacts upon request for help"
                 label="Alert Message"
                 multiline
-                onChangeText={handleChange('name')}
-                onBlur={() => setFieldTouched('name')}
-                value={values.name}
-                error={errors.name}
-                touched={touched.name}
+                onChangeText={handleChange('msg')}
+                onBlur={() => setFieldTouched('msg')}
+                value={values.msg}
+                error={errors.msg}
+                touched={touched.msg}
               />
               <Margin marginTop={52} />
               <TouchableOpacity
-                onPress={() => navigation.navigate('OTPScreen')}
+                onPress={() => updateDetails(values.msg)}
                 style={styles.continue}>
                 <RnText style={[styles.text, styles.textBold]}>
                   Save Changes
@@ -127,7 +144,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 26
+    marginTop: 26,
   },
   input: {
     width: '100%',

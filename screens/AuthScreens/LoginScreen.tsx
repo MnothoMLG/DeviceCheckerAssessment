@@ -5,10 +5,15 @@ import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
 import {loginValidationSchema} from './Validation';
 import {Margin} from '../../components/layout/layout';
+import {updateProfile} from '../../redux/modules/auth/actions';
+import {useDispatch} from 'react-redux';
 
 export default function LoginScreen(): JSX.Element {
   useEffect(() => {}, []);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const storeNumber = (number: string) => dispatch(updateProfile({number}));
   return (
     <View style={styles.container}>
       <Margin marginBottom={52}>
@@ -35,7 +40,10 @@ export default function LoginScreen(): JSX.Element {
               />
               <Margin marginTop={52} />
               <TouchableOpacity
-                onPress={() => navigation.navigate('OTPScreen')}
+                onPress={() => {
+                  storeNumber(values.number);
+                  navigation.navigate('OTPScreen');
+                }}
                 style={styles.continue}>
                 <Text style={[styles.text, styles.textBold]}>Continue</Text>
               </TouchableOpacity>
@@ -66,7 +74,7 @@ const styles = StyleSheet.create({
     width: 200,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FF2D5580',
+    backgroundColor: '#FF2D55',
     borderRadius: 5,
   },
   registerButtonsContainer: {

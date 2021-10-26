@@ -6,11 +6,26 @@ import {loginValidationSchema} from './Validation';
 import {Margin} from '../../components/layout/layout';
 import HeaderWrapper from '../../components/layout/back-screen';
 import {addContact} from '../../redux/modules/contacts/actions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
+const usersCollection = firestore().collection('users');
 
 export default function AddContact(props: {closeModal: any}): JSX.Element {
   const dispatch = useDispatch();
   const {closeModal} = props;
+  const {contacts, profile} = useSelector(state => ({
+    contacts: state.contactsReducer.contacts,
+    profile: state.authReducer.profile,
+  }));
+  const {number} = profile;
+  const updateDetails = (contacts: any[], newContact: any) => {
+    usersCollection
+      .doc(number)
+      .update({contacts})
+      .then(() => {
+        dispatch(addContact(newContact));
+      });
+  };
   return (
     <HeaderWrapper
       onBackPress={() => closeModal && closeModal()}
@@ -53,9 +68,10 @@ export default function AddContact(props: {closeModal: any}): JSX.Element {
                 />
                 <Margin marginTop={52} />
                 <TouchableOpacity
-                  onPress={() =>{
-                    dispatch(
-                      addContact({name: values.name, number: values.number}),
+                  onPress={() => {
+                    updateDetails(
+                      [...contacts, {name: values.name, number: values.number}],
+                      {name: values.name,number:values.number},
                     );
                     closeModal && closeModal();
                   }}

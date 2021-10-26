@@ -18,6 +18,7 @@ import firestore from '@react-native-firebase/firestore';
 import AddProfile from './AddProfile';
 import {updateProfile} from '../../redux/modules/auth/actions';
 import {useDispatch, useSelector} from 'react-redux';
+import {storeContacts} from '../../redux/modules/contacts/actions';
 const usersCollection = firestore().collection('users');
 
 // create a component
@@ -31,19 +32,22 @@ const HomeScreen = () => {
 
   const updateUserProfile = (name: string) => {
     //call update profileaction
-    // dispatch(updateProfile({...profile, name}));
+
     usersCollection
       .doc(number)
       .set({name})
       .then(() => {
         //show success flash message
+        dispatch(updateProfile({...profile, name}));
       });
   };
 
   useEffect(() => {
     usersCollection.doc(number).onSnapshot(documentSnapshot => {
       if (documentSnapshot.exists) {
-        console.log('User data: ', documentSnapshot.data());
+        const {message, contacts, name} = documentSnapshot.data() as any;
+        dispatch(updateProfile({...profile, name, message}));
+        dispatch(storeContacts(contacts));
       } else {
         showProfile(true);
       }

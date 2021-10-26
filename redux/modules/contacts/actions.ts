@@ -1,3 +1,4 @@
 import {createAction} from '@reduxjs/toolkit';
-export const addContact =
-  createAction<{number: string; name: string}>('@CONTACTS/ADD');
+import {Contact} from './types';
+export const addContact = createAction<Contact>('@CONTACTS/ADD');
+export const storeContacts = createAction<Contact[]>('@CONTACTS/STORE');
