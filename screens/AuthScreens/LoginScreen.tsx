@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Input from '../../components/Input';
 import {useNavigation} from '@react-navigation/native';
@@ -9,9 +9,26 @@ import {updateProfile} from '../../redux/modules/auth/actions';
 import {useDispatch} from 'react-redux';
 
 export default function LoginScreen(): JSX.Element {
-  useEffect(() => {}, []);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [confirm, setConfirm] = useState(null);
+  const [code, setCode] = useState('');
+
+  async function signInWithPhoneNumber(phoneNumber : string) {
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    setConfirm(confirmation);
+    storeNumber(phoneNumber);
+    navigation.navigate('OTPScreen');
+
+  }
+
+  async function confirmCode() {
+    try {
+      await confirm?.confirm(code);
+    } catch (error) {
+      console.log('Invalid code.');
+    }
+  }
 
   const storeNumber = (number: string) => dispatch(updateProfile({number}));
   return (
@@ -41,8 +58,8 @@ export default function LoginScreen(): JSX.Element {
               <Margin marginTop={52} />
               <TouchableOpacity
                 onPress={() => {
-                  storeNumber(values.number);
-                  navigation.navigate('OTPScreen');
+                  signInWithPhoneNumber('+1 650-555-3434')}
+
                 }}
                 style={styles.continue}>
                 <Text style={[styles.text, styles.textBold]}>Continue</Text>
