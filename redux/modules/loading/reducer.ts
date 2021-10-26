@@ -1,15 +1,17 @@
-export function loadingReducer(state = {}, action: any) {
-  const { type } = action;
+import {createReducer} from '@reduxjs/toolkit';
+import {endLoading} from './actions';
+import {startLoading} from './actions';
 
-  const matches = /(.*)_API_(REQUEST|SUCCESS|ERROR)/.exec(type);
+const INITIAL_STATE = {
+  loading: false,
+};
 
-  if (!matches) {
-    return state;
-  }
-
-  const [, requestName, requestState] = matches;
-  return {
-    ...state,
-    [requestName]: requestState === "REQUEST",
-  };
-}
+export const loadingReducer = createReducer(INITIAL_STATE, builder => {
+  builder
+    .addCase(startLoading, state => {
+      return {...state, loading: true};
+    })
+    .addCase(endLoading, state => {
+      return {...state, loading: false};
+    });
+});

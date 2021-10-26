@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
-import React, {Component} from 'react';
+import React from 'react';
 import {ScrollView, SafeAreaView, TouchableOpacity, View} from 'react-native';
-// import {Icon} from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
 import {Text} from '../../components';
 import {Fonts} from '../../constants';
 import {Colors} from '../../constants';
@@ -10,9 +9,25 @@ import PhoneIcon from '../../assets/icons/PhoneIcon';
 import {useNavigation} from '@react-navigation/native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {logout} from '../../redux/modules/auth/actions';
+import {useDispatch} from 'react-redux';
+import {startLoading, endLoading} from '../../redux/modules/loading/actions';
 
 const Settings = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const logUserOut = () => {
+    dispatch(startLoading());
+    auth()
+      .signOut()
+      .then((res: any) => {
+        dispatch(logout());
+      })
+      .catch(err => {})
+      .finally(() => {
+        dispatch(endLoading());
+      });
+  };
 
   const renderUserDetails = () => (
     <View
@@ -37,9 +52,6 @@ const Settings = () => {
         <Text color={Colors.overlayDark40}>Sifiso </Text>
         <View style={{height: 20, flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity>
-            <Text font={Fonts.tinyBold} color={Colors.secondayGreen}>
-              View Profile
-            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -51,7 +63,7 @@ const Settings = () => {
       <TouchableOpacity
         onPress={() => {
           if (option.displayName === 'Logout') {
-            dispatch(logout());
+            logUserOut();
             return;
           }
           navigation.navigate(option.route);

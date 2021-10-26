@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
-import React from 'react'
-import { Text as RnText } from 'react-native'
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Text as RnText} from 'react-native';
 
-import { Fonts, Metrics, Theme } from '../../constants'
-import Styles from './styles.ts'
+import {Fonts, Metrics, Theme} from '../../constants';
+import Styles from './styles.ts';
 
 const Text = ({
   align,
@@ -34,21 +34,20 @@ const Text = ({
         marginRight: Metrics.base * mr || null,
         marginTop: Metrics.base * mt || null,
         marginVertical: Metrics.base * mv || null,
-        textAlign: align
+        textAlign: align,
       },
-      styles.text
-    ]}
-  >
+      styles.text,
+    ]}>
     {children}
   </RnText>
-)
+);
 
 Text.defaultProps = {
   align: 'left',
   bold: null,
   children: null,
   color: Theme.textColorPrimary,
-  ellipsizeMode:'tail',
+  ellipsizeMode: 'tail',
   font: Fonts.bodyBold,
   mb: null,
   mh: null,
@@ -58,8 +57,8 @@ Text.defaultProps = {
   mv: null,
   numberOfLines: 2,
   styles: {
-    text: null
-  }
-}
+    text: null,
+  },
+};
 
-export default Text
+export default Text;

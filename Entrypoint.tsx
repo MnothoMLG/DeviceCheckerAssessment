@@ -3,26 +3,56 @@ import {StatusBar} from 'react-native';
  * React Native App
  * Everthing starts from the App
  */
-import React from 'react';
-import {Provider, useSelector} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Provider, useDispatch, useSelector} from 'react-redux';
 import Home from './navigation/NavigationStack';
 import {store} from './redux/root.store';
 import AuthStackNav from './navigation/AuthStackNavigator';
+import auth from '@react-native-firebase/auth';
 
+import {Center} from './components/layout/layout';
+import {login} from './redux/modules/auth/actions';
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 console.disableYellowBox = true;
 
 const Entry = () => {
-  const auth = useSelector(state => state.authReducer);
+  const {authReducer, loadingReducer} = useSelector(state => state);
+  const {loading} = loadingReducer;
+  const [user, setUser] = useState();
+  const dispatch = useDispatch();
+  const [initializing, setInitializing] = useState(true);
 
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (user) {
+      dispatch(login());
+    }
+    if (initializing) {
+      setTimeout(() => setInitializing(false), 1000);
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) {
+    return (
+      <Center style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <LoadingSpinner visible />
+      </Center>
+    );
+  }
   return (
     <>
+      <LoadingSpinner visible={loading} />
       <StatusBar
-        translucent
         backgroundColor={'#EC131C'}
         barStyle="dark-content">
         {' '}
       </StatusBar>
-      {!auth.loggedIn ? <AuthStackNav /> : <Home />}
+      {!authReducer.loggedIn ? <AuthStackNav /> : <Home />}
     </>
   );
 };

@@ -1,74 +1,89 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Input from '../../components/Input';
-import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
 import {loginValidationSchema} from './Validation';
 import {Margin} from '../../components/layout/layout';
-import {updateProfile} from '../../redux/modules/auth/actions';
-import {useDispatch} from 'react-redux';
+import auth from '@react-native-firebase/auth';
+import {login, updateProfile} from '../../redux/modules/auth/actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {endLoading, startLoading} from '../../redux/modules/loading/actions';
+import { Text } from '../../components';
 
 export default function LoginScreen(): JSX.Element {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
   const [confirm, setConfirm] = useState(null);
-  const [code, setCode] = useState('');
+  const profile = useSelector(state => state.authReducer.profile);
 
-  async function signInWithPhoneNumber(phoneNumber : string) {
+  async function signInWithPhoneNumber(phoneNumber: string) {
+    dispatch(startLoading());
     const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
     setConfirm(confirmation);
     storeNumber(phoneNumber);
-    navigation.navigate('OTPScreen');
-
+    dispatch(endLoading());
   }
 
-  async function confirmCode() {
+  async function confirmCode(code: string) {
     try {
+      dispatch(startLoading());
       await confirm?.confirm(code);
+      dispatch(login());
+      dispatch(endLoading());
     } catch (error) {
-      console.log('Invalid code.');
+      console.log('Invalid code.'); //flash message
+      dispatch(endLoading());
     }
   }
 
   const storeNumber = (number: string) => dispatch(updateProfile({number}));
-  return (
-    <View style={styles.container}>
-      <Margin marginBottom={52}>
-        <Text>Enter your phone number to proceeed</Text>
-      </Margin>
-      <View style={styles.form}>
-        <Formik
-          initialValues={{number: '', password: ''}}
-          onSubmit={() => null}
-          validationSchema={loginValidationSchema}>
-          {({handleChange, setFieldTouched, touched, errors, values}) => (
-            <>
-              <Input
-                autoCapitalize="none"
-                style={styles.input}
-                placeholder="+27"
-                label="Mobile Number"
-                required
-                onChangeText={handleChange('number')}
-                onBlur={() => setFieldTouched('number')}
-                value={values.number}
-                error={errors.number}
-                touched={touched.number}
-              />
-              <Margin marginTop={52} />
-              <TouchableOpacity
-                onPress={() => {
-                  signInWithPhoneNumber('+1 650-555-3434')}
 
-                }}
-                style={styles.continue}>
-                <Text style={[styles.text, styles.textBold]}>Continue</Text>
-              </TouchableOpacity>
-            </>
-          )}
-        </Formik>
+  return (
+    <>
+      <View style={styles.container}>
+        <Margin marginBottom={52}>
+          <Text>
+            {confirm
+              ? `Enter the OTP sent by SMS to\n${profile.number}`
+              : 'Enter your phone number to proceeed'}
+          </Text>
+        </Margin>
+        <View style={styles.form}>
+          <Formik
+            initialValues={{number: '', code: ''}}
+            onSubmit={() => null}
+            validationSchema={loginValidationSchema}>
+            {({handleChange, setFieldTouched, touched, errors, values}) => (
+              <>
+                <Input
+                  autoCapitalize="none"
+                  style={styles.input}
+                  placeholder={confirm ? 'OTP Code' : '+27'}
+                  label={confirm ? 'OTP Code' : 'Mobile Number'}
+                  required
+                  onChangeText={handleChange(confirm ? 'code' : 'number')}
+                  onBlur={() => setFieldTouched(confirm ? 'code' : 'number')}
+                  value={confirm ? values.code : values.number}
+                  error={confirm ? errors.code : errors.number}
+                  touched={confirm ? touched.code : touched.number}
+                />
+                <Margin marginTop={52} />
+                <TouchableOpacity
+                  onPress={() => {
+                    confirm
+                      ? confirmCode(values.code)
+                      : signInWithPhoneNumber('+27680189920');
+                  }}
+                  style={styles.continue}>
+                  <Text style={[styles.text, styles.textBold]}>Continue</Text>
+                </TouchableOpacity>
+
+                <Text mt={2}> Didn't recieve code? Resend</Text>
+              </>
+            )}
+          </Formik>
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 

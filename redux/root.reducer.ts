@@ -6,7 +6,7 @@ import {contactsReducer} from './modules/contacts/reducer';
 import {authReducer} from './modules/auth/reducer';
 
 export const reducers = combineReducers({
-  loading: loadingReducer,
+  loadingReducer,
   storesReducer: storesReducer,
   alert: alertReducer,
   contactsReducer,
