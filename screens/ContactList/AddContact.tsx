@@ -49,6 +49,7 @@ export default function AddContact(props: {
                   placeholder="Name"
                   label="Name"
                   required
+                  maxLength={12}
                   onChangeText={handleChange('name')}
                   onBlur={() => setFieldTouched('name')}
                   value={values.name}
@@ -72,7 +73,6 @@ export default function AddContact(props: {
                 <TouchableOpacity
                   // disabled={!isValid}
                   onPress={() => {
-                    
                     if (editing) {
                       const index = contacts.findIndex(
                         (c: Contact) => c.name === contact.name,

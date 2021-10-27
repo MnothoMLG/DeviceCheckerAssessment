@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, Modal, SafeAreaView, ScrollView} from 'react-native';
+import {
+  TouchableOpacity,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import {Text} from '../../components';
 import {Fonts} from '../../constants';
 import AddContact from './AddContact';
@@ -10,6 +16,9 @@ import {addContact} from '../../redux/modules/contacts/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import {Contact} from '../../redux/modules/contacts/types';
+import {retry} from 'redux-saga/effects';
+import {Margin} from '../../components/layout/layout';
+import flashMessage from '../../utils/showFlashMessage';
 const usersCollection = firestore().collection('users');
 
 const ContactList = props => {
@@ -22,20 +31,40 @@ const ContactList = props => {
   const {number, name} = profile;
   const dispatch = useDispatch();
   const renderContacts = () => {
+    if (contacts.length === 0) {
+      return (
+        <Margin style={{paddingHorizontal : 20}}>
+          <Text numberOfLines={3} align="center">
+            {
+              'No contacts here.\nClick add and start saving emergency contact persons'
+            }
+          </Text>
+        </Margin>
+      );
+    }
     return contacts.map(item => (
       <ContactCard
         onEdit={() => {
           setShowAdd(true);
           setEditing(item);
         }}
-        onDelete={() => promptDelete()}
+        onDelete={() => promptDelete(item)}
         onAdd={() => null}
         item={item}
       />
     ));
   };
 
-  const promptDelete = () => {};
+  const promptDelete = (byeContact: Contact) => {
+    Alert.alert('Delete Contact', 'Are You Sure?', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => deleteContact(byeContact)},
+    ]);
+  };
 
   const renderAddButton = () => {
     return (
@@ -58,7 +87,7 @@ const ContactList = props => {
     adding?: boolean,
   ) => {
     setShowAdd(false);
-    dispatch(startLoading());
+    // dispatch(startLoading());
     usersCollection
       .doc(number)
       .update({contacts: newContacts})
@@ -66,7 +95,10 @@ const ContactList = props => {
         if (adding && newContact) {
           dispatch(addContact(newContact));
         }
-        //flash message here
+        flashMessage('success', 'Contacts updated');
+      })
+      .catch(err => {
+        flashMessage('danger', 'An error occured');
       })
       .finally(() => {
         setTimeout(() => dispatch(endLoading()), 2000);
@@ -74,7 +106,7 @@ const ContactList = props => {
   };
 
   const deleteContact = (bye: Contact) => {
-    const newList = contacts.filter((c: Contact) => c.name === bye.name);
+    const newList = contacts.filter((c: Contact) => c.name !== bye.name);
     updateContacts(newList);
   };
 

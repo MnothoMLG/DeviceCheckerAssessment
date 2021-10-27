@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {endLoading, startLoading} from '../../redux/modules/loading/actions';
 import {Text} from '../../components';
 import {globalValidationScheme} from '../../utils/Validation';
+import flashMessage from '../../utils/showFlashMessage';
 
 export default function LoginScreen(): JSX.Element {
   const dispatch = useDispatch();
@@ -17,10 +18,15 @@ export default function LoginScreen(): JSX.Element {
 
   async function signInWithPhoneNumber(phoneNumber: string) {
     dispatch(startLoading());
-    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    setConfirm(confirmation);
-    storeNumber(phoneNumber);
-    dispatch(endLoading());
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      setConfirm(confirmation);
+      storeNumber(phoneNumber);
+    } catch {
+      flashMessage('danger', 'An Error Occured');
+    } finally {
+      setTimeout(() => dispatch(endLoading()), 2000);
+    }
   }
 
   async function confirmCode(code: string) {
@@ -30,7 +36,7 @@ export default function LoginScreen(): JSX.Element {
       dispatch(login());
       dispatch(endLoading());
     } catch (error) {
-      console.log('Invalid code.'); //flash message
+      flashMessage('danger', 'Invalid code');
       dispatch(endLoading());
     }
   }
@@ -55,27 +61,45 @@ export default function LoginScreen(): JSX.Element {
             validationSchema={globalValidationScheme}>
             {({handleChange, setFieldTouched, touched, errors, values}) => (
               <>
-                <Input
-                  autoCapitalize="none"
-                  style={styles.input}
-                  placeholder={confirm ? 'OTP Code' : '+27'}
-                  label={confirm ? 'OTP Code' : 'Mobile Number'}
-                  required
-                  onChangeText={handleChange(confirm ? 'code' : 'number')}
-                  onBlur={() => setFieldTouched(confirm ? 'code' : 'number')}
-                  value={confirm ? values.code : values.number}
-                  error={confirm ? errors.code : errors.number}
-                  touched={confirm ? touched.code : touched.number}
-                />
+                {confirm ? (
+                  <Input
+                    autoCapitalize="none"
+                    style={styles.input}
+                    placeholder={'OTP Code'}
+                    label={'OTP Code'}
+                    required
+                    onChangeText={handleChange('code')}
+                    onBlur={() => setFieldTouched('code')}
+                    value={values.code}
+                    error={errors.code}
+                    touched={touched.code}
+                  />
+                ) : (
+                  <Input
+                    autoCapitalize="none"
+                    style={styles.input}
+                    placeholder={'+27'}
+                    maxLength={12}
+                    label={'Mobile Number'}
+                    required
+                    onChangeText={handleChange('number')}
+                    onBlur={() => setFieldTouched('number')}
+                    value={values.number}
+                    error={errors.number}
+                    touched={touched.number}
+                  />
+                )}
                 <Margin marginTop={52} />
                 <TouchableOpacity
                   onPress={() => {
                     confirm
                       ? confirmCode(values.code)
-                      : signInWithPhoneNumber('+27680189920');
+                      : signInWithPhoneNumber(values.number);
                   }}
                   style={styles.continue}>
-                  <Text style={[styles.text, styles.textBold]}>Continue</Text>
+                  <Text styles={{text: [styles.text, styles.textBold]}}>
+                    Continue
+                  </Text>
                 </TouchableOpacity>
 
                 <Text mt={2}> Didn't recieve code? Resend</Text>

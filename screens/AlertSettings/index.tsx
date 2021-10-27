@@ -12,6 +12,7 @@ import {globalValidationScheme} from '../../utils/Validation';
 import {endLoading, startLoading} from '../../redux/modules/loading/actions';
 import styles from './styles';
 import {updateProfile} from '../../redux/modules/auth/actions';
+import flashMessage from '../../utils/showFlashMessage';
 const usersCollection = firestore().collection('users');
 
 export default function AlertSettings(): JSX.Element {
@@ -27,9 +28,12 @@ export default function AlertSettings(): JSX.Element {
       .then(() => {
         navigation.goBack();
         dispatch(updateProfile({...profile, message}));
-        //show success flash message
+        flashMessage('success', 'Profile updated');
       })
-      .finally(() => dispatch(endLoading()));
+      .catch(() => {
+        flashMessage('danger', 'An error occured');
+      })
+      .finally(() => setTimeout(() => dispatch(endLoading()), 2000));
   };
   return (
     <View style={styles.container}>

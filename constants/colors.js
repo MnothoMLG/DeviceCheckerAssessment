@@ -1,7 +1,7 @@
-import Opacity from './opacity'
+import Opacity from './opacity';
 
-const overlayDark = '#0d1214'
-const overlayLight = '#eceff1'
+const overlayDark = '#0d1214';
+const overlayLight = '#eceff1';
 
 export default {
   alertErrorBackground: '#EC131C',
@@ -11,8 +11,8 @@ export default {
   alertWarningBackground: '#E43125',
   alertWarningBorder: '#ffffff',
   black: '#000000',
-  lightBlack : '#151415',
-  lightGrey : '#f0f0f0f0',
+  lightBlack: '#151415',
+  lightGrey: '#f0f0f0f0',
   fieldValidation: '#EC131C',
   focusColor: '#E1E1E1',
   formHightlight: '#6A6A6A',
@@ -37,21 +37,21 @@ export default {
   overlayLight80: `${overlayLight}${Opacity._80}`,
   overlayLight90: `${overlayLight}${Opacity._90}`,
   primaryGreen: '#394D1E',
-  primaryBlack : '#1c1c1c',
-  secondayGreen :'#94C64E',
-  secondayLightGreen :'#94C64E',
+  primaryBlack: '#1c1c1c',
+  secondayGreen: '#94C64E',
+  secondayLightGreen: '#94C64E',
   secondayLightGrey: '#E0E0E0',
-  secondarDarkGrey : '#4C4D4C',
-  secondayCharcoal :'#262526',
-  textGrey:  '#B3B3B3',
-  // tetiaryStone 
-  tetiaryGrey : '#7d7d7d7d',
-  tetiaryRed :'#C70942',
+  secondarDarkGrey: '#4C4D4C',
+  secondayCharcoal: '#262526',
+  textGrey: '#B3B3B3',
+  // tetiaryStone
+  tetiaryGrey: '#7d7d7d7d',
+  tetiaryRed: '#C70942',
   romansBorderGrey: '#565556',
   romansDark: '#231F20',
   romansDarkGrey: '#353535',
   romansLightGrey: '#A1A0A0',
-  romansMediumLightGrey:'#AEAEAE',
+  romansMediumLightGrey: '#AEAEAE',
   romansMediumGrey: '#4A4A4A',
   romansNavy: '#00529C',
   romansNavyLight: '#00529C50',
@@ -62,7 +62,7 @@ export default {
   transparent: 'transparent',
   unselectedGrey: '#888888',
   white: '#ffffff',
-  orange: '#FFA500'
-}
+  orange: '#FFA500',
+};
 
 // FIXME: Remove colors that are not being used

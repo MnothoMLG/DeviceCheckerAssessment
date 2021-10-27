@@ -9,6 +9,12 @@ const styles = StyleSheet.create({
   left: {
     marginRight: 8,
   },
+  option: {
+    paddingHorizontal: 8,
+    borderBottomColor: Colors.overlayDark10,
+    borderBottomWidth: 1,
+    height: 36,
+  },
   container: {
     width: '100%',
     height: 72,

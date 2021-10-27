@@ -1,4 +1,5 @@
 import functions from '@react-native-firebase/functions';
+import flashMessage from './showFlashMessage';
 
 if (__DEV__) {
   // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
@@ -12,12 +13,14 @@ const sendSMS = ({
   msg: string;
   emergencyContacts: string[];
 }) => {
-  pushSMS({data: '~This is test data ', msg, emergencyContacts})
+  pushSMS({msg, emergencyContacts})
     .then(response => {
       console.log('results here  ====', {response});
+      flashMessage('success', 'Alert sent.');
     })
     .catch(err => {
       console.log({err});
+      // flashMessage('danger', 'An error occured.\nPlease try again');
     });
 };
 

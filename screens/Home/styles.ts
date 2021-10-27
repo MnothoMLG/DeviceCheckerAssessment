@@ -1,79 +1,60 @@
 import {StyleSheet} from 'react-native';
-import {Metrics, Colors} from '../../constants';
-import {iPhoneLarge} from '../../utils/screenSize';
-
-const tinyBorder = {
-  borderColor: Colors.textGrey,
-  borderWidth: 1,
-};
-const noBorder = {
-  borderWidth: 0,
-};
+import {Colors, shadow} from '../../constants';
 const styles = StyleSheet.create({
-  bottomButtonBar: {
-    alignItems: 'center',
-    backgroundColor: Colors.focusColor,
-    bottom: 0,
-    flexDirection: 'row',
-    flex: 1,
-    height: iPhoneLarge ? 74 : 56,
-    justifyContent: 'space-between',
-    paddingHorizontal: Metrics.base * 2,
-    position: 'absolute',
-    width: '100%',
-    zIndex: 1,
-  },
   container: {
-    alignItems: 'center',
+    backgroundColor: '#ffffff',
     flex: 1,
+    padding: 20,
+    alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 42,
-    width: '100%',
   },
-
-  modalWrapper: {
-    alignItems: 'center',
-    backgroundColor: Colors.focusColor,
-    borderTopLeftRadius: Metrics.base * 3,
-    borderTopRightRadius: Metrics.base * 3,
-    flex: 1,
-    marginTop: Metrics.base * 2,
-    paddingTop: Metrics.base,
-  },
-
-  normalizeButton: {
-    alignItems: 'center',
-    backgroundColor: Colors.transparent,
-    borderRadius: Metrics.base * 2,
-    height: Metrics.base * 4,
+  panic: {
+    width: 200,
+    height: 200,
+    borderWidth: 50,
     justifyContent: 'center',
-    width: Metrics.base * 26.625,
-    ...tinyBorder,
-  },
-  normalizeButtonON: {
-    backgroundColor: Colors.secondayGreen,
-    ...noBorder,
-  },
-  range: {
     alignItems: 'center',
-    backgroundColor: Colors.transparent,
-    borderRadius: Metrics.base * 2,
-    height: Metrics.base * 4,
+    borderColor: '#FF2D55',
+    borderRadius: 100,
+  },
+  categoriesList: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    height: 140,
+    alignItems: 'center',
+    marginHorizontal: 16,
+  },
+  top: {
+    backgroundColor: Colors.white,
+    height: 100,
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 24,
+  },
+  listing: {
+    backgroundColor: Colors.white,
+    borderRadius: 22,
+    paddingTop: 18,
+    paddingBottom: 42,
+    marginBottom: 16,
+    ...shadow,
+  },
+  description: {
+    height: 42,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    color: 'rgba(0,0,0,0.7)',
+    textAlign: 'center',
+  },
+  popularCategories: {
+    alignItems: 'center',
     justifyContent: 'center',
-    width: Metrics.base * 7,
-    ...tinyBorder,
+    borderRadius: 20,
+    width: 110,
+    height: 110,
+    marginRight: 12,
   },
-  rangeSelected: {
-    backgroundColor: Colors.secondayGreen,
-    ...noBorder,
-  },
-  tittleWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: Metrics.base * 4.5,
-    paddingHorizontal: Metrics.base * 3,
-    width: '100%',
-  },
+  popularText: {marginTop: 8, fontSize: 13, fontWeight: 'bold'},
 });
 
 export default styles;

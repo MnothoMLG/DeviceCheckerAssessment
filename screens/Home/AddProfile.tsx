@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Input from '../../components/Input';
 import {Formik} from 'formik';
-
 import {Margin} from '../../components/layout/layout';
 import HeaderWrapper from '../../components/layout/back-screen';
 

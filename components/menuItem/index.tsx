@@ -13,6 +13,8 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import {Contact} from '../../redux/modules/contacts/types';
+import Image from '../image';
+import images from '../../assets/images';
 
 interface Props {
   item: Contact;
@@ -45,21 +47,28 @@ const MenuItem = (props: Props) => {
           width: 10,
           height: 30,
           position: 'absolute',
-          right: 10,
+          right: 20,
         }}>
         <Menu>
           <MenuTrigger
             style={{
               width: 10,
+              alignItems: 'center',
               height: 30,
-              backgroundColor: '#000',
-              position: 'absolute',
-              right: 10,
-            }}
-          />
+            }}>
+            <Image source={images.dots} width={20} height={30} />
+          </MenuTrigger>
           <MenuOptions>
-            <MenuOption onSelect={() => onEdit && onEdit()} text="Edit" />
-            <MenuOption onSelect={() => onDelete && onDelete()} text="Delete" />
+            <MenuOption
+              style={styles.option}
+              onSelect={() => onEdit && onEdit()}
+              text="Edit"
+            />
+            <MenuOption
+              style={styles.option}
+              onSelect={() => onDelete && onDelete()}
+              text="Delete"
+            />
           </MenuOptions>
         </Menu>
       </View>

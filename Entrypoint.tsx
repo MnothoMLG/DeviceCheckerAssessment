@@ -13,6 +13,7 @@ import {MenuProvider} from 'react-native-popup-menu';
 import {Center} from './components/layout/layout';
 import {login} from './redux/modules/auth/actions';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
+import ToastComponet from './components/Toast';
 console.disableYellowBox = true;
 
 const Entry = () => {
@@ -47,10 +48,11 @@ const Entry = () => {
   return (
     <>
       <LoadingSpinner visible={loading} />
+      <ToastComponet />
       <StatusBar backgroundColor={'#EC131C'} barStyle="dark-content">
         {' '}
       </StatusBar>
-      {!authReducer.loggedIn && false ? <AuthStackNav /> : <Home />}
+      {!authReducer.loggedIn ? <AuthStackNav /> : <Home />}
     </>
   );
 };
