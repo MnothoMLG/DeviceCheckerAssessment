@@ -7,14 +7,12 @@ if (__DEV__) {
 const pushSMS = functions().httpsCallable('sendAlertSMS');
 const sendSMS = ({
   msg,
-  number,
   emergencyContacts,
 }: {
   msg: string;
-  number: string;
   emergencyContacts: string[];
 }) => {
-  pushSMS({data: '~This is test data ', msg, number, emergencyContacts})
+  pushSMS({data: '~This is test data ', msg, emergencyContacts})
     .then(response => {
       console.log('results here  ====', {response});
     })

@@ -51,10 +51,15 @@ const HomeScreen = () => {
     dispatch(startLoading());
     console.log('here sre the contacts ', contacts);
     const nums = ['+27680189220', '+27 67 218 8754']; //contacts.map(c => c.number);
-    const {message} = profile;
-    console.log({nums, message});
+    const {message, name} = profile;
+    const latLng = '-28.868282027545053,31.9080245739612'; //`${lat},${lng}`;
+    const text = '. Here is my location \n';
+    const androidCoords = `http://www.google.com/maps/place/${latLng}`; //`http://maps.google.com/?q=${latLng}` //`comgooglemaps://?q=${latLng}`;
+    // body: `http://www.google.com/maps/place/${latLng}` //'maps:0,0?q=-28.868282027545053,31.9080245739612',
+
+    // =====
     sendSMS({
-      msg: 'message from the front to 3 numbers ', //message,
+      msg: message + text + androidCoords,
       emergencyContacts: nums,
     });
     dispatch(endLoading());
@@ -84,14 +89,14 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          setTouches(prevState => prevState + 1);
-
+          // setTouches(prevState => prevState + 1);
+          fireAlert();
           console.log({touches});
-          if (touches >= 3) {
-            setShow(true);
-            setTouches(0);
-            fireAlert();
-          }
+          // if (touches >= 3) {
+          //   setShow(true);
+          //   setTouches(0);
+          //   fireAlert();
+          // }
         }}
         style={styles.panic}>
         <Image source={images.point} width={30} height={30} />
