@@ -9,12 +9,15 @@ import PhoneIcon from '../../assets/icons/PhoneIcon';
 import {useNavigation} from '@react-navigation/native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {logout} from '../../redux/modules/auth/actions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {startLoading, endLoading} from '../../redux/modules/loading/actions';
+import { Margin } from '../../components/layout/layout';
 
 const Settings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const profile = useSelector(state => state.authReducer.profile);
+  const {name} = profile;
 
   const logUserOut = () => {
     dispatch(startLoading());
@@ -49,7 +52,7 @@ const Settings = () => {
         }}
       />
       <View style={{paddingHorizontal: 16, justifyContent: 'center'}}>
-        <Text color={Colors.overlayDark40}>Sifiso </Text>
+        <Text color={Colors.overlayDark40}>{name}</Text>
         <View style={{height: 20, flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity />
         </View>
@@ -93,11 +96,12 @@ const Settings = () => {
         <View style={{fle: 1, height: 500}}>
           <View style={{flex: 1, paddingHorizontal: 20}}>
             {menuList.map(item => renderMenuOpt(item))}
-          </View>
 
-          <View style={{position: 'absolute', bottom: 16, width: '100%'}}>
+            <Margin marginTop={142} />
             {renderMenuOpt({displayName: 'Logout', icon: <BackIcon />})}
           </View>
+
+
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -115,7 +119,6 @@ const menuList = [
     icon: <icons.InfoIcon />,
     route: 'AlertSettings',
   },
-  {displayName: 'Help', icon: <icons.HelpIcon />, route: 'ContactList'},
 ];
 
 export default Settings;

@@ -83,7 +83,7 @@ function MyTabs() {
             ),
             header: () => null,
           }}
-          name="Settings"
+          name="Profile"
           component={SettingsStack}
         />
       </Tab.Navigator>

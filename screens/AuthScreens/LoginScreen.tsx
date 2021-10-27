@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Input from '../../components/Input';
 import {Formik} from 'formik';
-import {loginValidationSchema} from './Validation';
 import {Margin} from '../../components/layout/layout';
 import auth from '@react-native-firebase/auth';
 import {login, updateProfile} from '../../redux/modules/auth/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {endLoading, startLoading} from '../../redux/modules/loading/actions';
 import {Text} from '../../components';
+import {globalValidationScheme} from '../../utils/Validation';
 
 export default function LoginScreen(): JSX.Element {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ export default function LoginScreen(): JSX.Element {
           <Formik
             initialValues={{number: '', code: ''}}
             onSubmit={() => null}
-            validationSchema={loginValidationSchema}>
+            validationSchema={globalValidationScheme}>
             {({handleChange, setFieldTouched, touched, errors, values}) => (
               <>
                 <Input

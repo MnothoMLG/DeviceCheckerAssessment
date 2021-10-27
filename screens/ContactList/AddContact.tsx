@@ -2,12 +2,12 @@ import React from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Input from '../../components/Input';
 import {Formik} from 'formik';
-import {loginValidationSchema} from './Validation';
 import {Margin} from '../../components/layout/layout';
 import HeaderWrapper from '../../components/layout/back-screen';
 import {addContact} from '../../redux/modules/contacts/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import {globalValidationScheme} from '../../utils/Validation';
 const usersCollection = firestore().collection('users');
 
 export default function AddContact(props: {closeModal: any}): JSX.Element {
@@ -38,7 +38,7 @@ export default function AddContact(props: {closeModal: any}): JSX.Element {
           <Formik
             initialValues={{number: '', name: ''}}
             onSubmit={() => null}
-            validationSchema={loginValidationSchema}>
+            validationSchema={globalValidationScheme}>
             {({handleChange, setFieldTouched, touched, errors, values}) => (
               <>
                 <Input
@@ -71,7 +71,7 @@ export default function AddContact(props: {closeModal: any}): JSX.Element {
                   onPress={() => {
                     updateDetails(
                       [...contacts, {name: values.name, number: values.number}],
-                      {name: values.name,number:values.number},
+                      {name: values.name, number: values.number},
                     );
                     closeModal && closeModal();
                   }}

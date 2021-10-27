@@ -20,12 +20,14 @@ import {updateProfile} from '../../redux/modules/auth/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {storeContacts} from '../../redux/modules/contacts/actions';
 import {startLoading, endLoading} from '../../redux/modules/loading/actions';
+import Geolocation from '@react-native-community/geolocation';
 const usersCollection = firestore().collection('users');
 
 // create a component
 const HomeScreen = () => {
   const [showEmergency, setShow] = useState(false);
   const [touches, setTouches] = useState(0);
+  const [latLng, setLatLng] = useState<string>('');
   const [profileVisible, showProfile] = useState(false);
   const {profile, contacts} = useSelector(state => ({
     profile: state.authReducer.profile,
@@ -49,23 +51,20 @@ const HomeScreen = () => {
 
   const fireAlert = () => {
     dispatch(startLoading());
-    console.log('here sre the contacts ', contacts);
     const nums = ['+27680189220', '+27 67 218 8754']; //contacts.map(c => c.number);
-    const {message, name} = profile;
-    const latLng = '-28.868282027545053,31.9080245739612'; //`${lat},${lng}`;
+    const {message} = profile;
     const text = '. Here is my location \n';
-    const androidCoords = `http://www.google.com/maps/place/${latLng}`; //`http://maps.google.com/?q=${latLng}` //`comgooglemaps://?q=${latLng}`;
-    // body: `http://www.google.com/maps/place/${latLng}` //'maps:0,0?q=-28.868282027545053,31.9080245739612',
+    const mapLink = `http://www.google.com/maps/place/${latLng}`;
 
-    // =====
     sendSMS({
-      msg: message + text + androidCoords,
+      msg: message + text + mapLink,
       emergencyContacts: nums,
     });
     dispatch(endLoading());
   };
 
   useEffect(() => {
+    dispatch(startLoading());
     usersCollection.doc(number).onSnapshot(documentSnapshot => {
       if (documentSnapshot.exists) {
         const {message, contacts, name} = documentSnapshot.data() as any;
@@ -74,7 +73,31 @@ const HomeScreen = () => {
       } else {
         showProfile(true);
       }
+      dispatch(endLoading());
     });
+    Geolocation.getCurrentPosition(
+      pos => {
+        const {
+          coords: {latitude, longitude},
+        } = pos;
+        setLatLng(`${latitude},${longitude}`);
+      },
+      err => {
+        console.log(' had an error here', {err});
+      },
+    );
+
+    Geolocation.watchPosition(
+      pos => {
+        const {
+          coords: {latitude, longitude},
+        } = pos;
+        setLatLng(`${latitude},${longitude}`);
+      },
+      () => {
+        console.log('some error occured');
+      },
+    );
   }, []);
 
   return [

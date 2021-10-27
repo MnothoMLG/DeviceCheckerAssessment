@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  TouchableOpacity,
-  Modal,
-  View,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {TouchableOpacity, Modal, SafeAreaView, ScrollView} from 'react-native';
 import {Text} from '../../components';
 import {Colors, Fonts} from '../../constants';
 import images from '../../assets/images';

@@ -1,53 +1,47 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text as RnText,
-  TouchableOpacity,
-  Switch,
-} from 'react-native';
+import {View, Text as RnText, TouchableOpacity, Switch} from 'react-native';
 import Input from '../../components/Input';
 import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
-import {loginValidationSchema} from './Validation';
 import {Margin, Row} from '../../components/layout/layout';
 import {Text} from '../../components/';
 import {Fonts} from '../../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import {globalValidationScheme} from '../../utils/Validation';
+import {endLoading, startLoading} from '../../redux/modules/loading/actions';
+import styles from './styles';
+import {updateProfile} from '../../redux/modules/auth/actions';
 const usersCollection = firestore().collection('users');
 
 export default function AlertSettings(): JSX.Element {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
   const profile = useSelector(state => state.authReducer.profile);
-  const {number} = profile;
-
-  const updateDetails = (message: string) => {
-
+  const {number, message} = profile;
+  const dispatch = useDispatch();
+  const updateMessage = (message: string) => {
+    dispatch(startLoading());
     usersCollection
-    .doc(number)
-    .update({message})
-    .then(() => {
-      //show success flash message
-      navigation.goBack();
-    });
-  }
+      .doc(number)
+      .update({message})
+      .then(() => {
+        navigation.goBack();
+        dispatch(updateProfile({...profile, message}));
+        //show success flash message
+      })
+      .finally(() => dispatch(endLoading()));
+  };
   return (
     <View style={styles.container}>
-      <SwitchSetting
-        description="Send an SMS to your contacts on help request"
-        setting="SMS"
-      />
       <SwitchSetting
         description="Send an Email to your mail list and your organisation on help request"
         setting="Email"
       />
       <View style={styles.form}>
         <Formik
-          initialValues={{msg: ''}}
+          initialValues={{msg: message}}
           onSubmit={() => null}
-          validationSchema={loginValidationSchema}>
+          validationSchema={globalValidationScheme}>
           {({handleChange, setFieldTouched, touched, errors, values}) => (
             <>
               <Input
@@ -64,7 +58,7 @@ export default function AlertSettings(): JSX.Element {
               />
               <Margin marginTop={52} />
               <TouchableOpacity
-                onPress={() => updateDetails(values.msg)}
+                onPress={() => updateMessage(values.msg)}
                 style={styles.continue}>
                 <RnText style={[styles.text, styles.textBold]}>
                   Save Changes
@@ -88,15 +82,11 @@ function SwitchSetting({
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <View
-      style={{
-        width: '100%',
-        padding: 16,
-        borderBottomWidth: 1,
-        borderColor: '#00000010',
-      }}>
+    <View style={styles.settingWrapper}>
       <Text font={Fonts.headingBold}>{setting}</Text>
-      <Text mb={1} font={Fonts.body}>{description}</Text>
+      <Text mb={1} font={Fonts.body}>
+        {description}
+      </Text>
       <Row style={{alignItems: 'center'}} alignHorizontal="space-between">
         <Text font={Fonts.subheadingBold}>{isEnabled ? 'On' : 'Off'}</Text>
         <Switch
@@ -110,73 +100,3 @@ function SwitchSetting({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    flex: 1,
-    backgroundColor: '#FFF',
-    paddingTop: 42,
-  },
-  loginButtonsContainer: {
-    backgroundColor: '#FFFFFF',
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingVertical: 40,
-  },
-  continue: {
-    height: 42,
-    width: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FF2D55',
-    borderRadius: 5,
-  },
-  registerButtonsContainer: {
-    marginTop: 30,
-    width: '80%',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  form: {
-    width: '100%',
-    paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginTop: 26,
-  },
-  input: {
-    width: '100%',
-    padding: 10,
-    height: 102,
-  },
-  button: {
-    width: '100%',
-    marginVertical: 10,
-    shadowColor: 'grey',
-  },
-  socialButtons: {
-    width: '100%',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  text: {
-    marginVertical: 10,
-    color: '#fff',
-  },
-  linkText: {
-    color: '#4C8BF5',
-    marginTop: 20,
-  },
-  textBold: {
-    fontWeight: 'bold',
-  },
-  logo: {
-    width: '80%',
-    height: 150,
-    marginBottom: 20,
-    marginTop: 20,
-  },
-});

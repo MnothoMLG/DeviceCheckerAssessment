@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import PhoneIcon from '../../assets/icons/PhoneIcon';
 
 import {Text} from '../../components';
 import styles from './styles';
 import {Margin} from '../../components/layout/layout';
-import {Fonts, Metrics} from '../../constants';
-import { startLoading, endLoading } from '../../redux/modules/loading/actions';
+import {Fonts} from '../../constants';
 
 const EmergencyCalling = (props: {visible: any; onSafe: any}) => {
   const contacts = useSelector(state => state.contactsReducer.contacts);
