@@ -9,7 +9,7 @@ import Home from './navigation/NavigationStack';
 import {store} from './redux/root.store';
 import AuthStackNav from './navigation/AuthStackNavigator';
 import auth from '@react-native-firebase/auth';
-
+import {MenuProvider} from 'react-native-popup-menu';
 import {Center} from './components/layout/layout';
 import {login} from './redux/modules/auth/actions';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
@@ -50,14 +50,16 @@ const Entry = () => {
       <StatusBar backgroundColor={'#EC131C'} barStyle="dark-content">
         {' '}
       </StatusBar>
-      {!authReducer.loggedIn && false ? <AuthStackNav /> : <Home />} 
+      {!authReducer.loggedIn && false ? <AuthStackNav /> : <Home />}
     </>
   );
 };
 
 const App = () => (
   <Provider store={store}>
-    <Entry />
+    <MenuProvider>
+      <Entry />
+    </MenuProvider>
   </Provider>
 );
 

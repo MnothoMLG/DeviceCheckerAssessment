@@ -4,42 +4,44 @@ import Input from '../../components/Input';
 import {Formik} from 'formik';
 import {Margin} from '../../components/layout/layout';
 import HeaderWrapper from '../../components/layout/back-screen';
-import {addContact} from '../../redux/modules/contacts/actions';
-import {useDispatch, useSelector} from 'react-redux';
-import firestore from '@react-native-firebase/firestore';
+import {useSelector} from 'react-redux';
 import {globalValidationScheme} from '../../utils/Validation';
-const usersCollection = firestore().collection('users');
+import {Contact} from '../../redux/modules/contacts/types';
 
-export default function AddContact(props: {closeModal: any}): JSX.Element {
-  const dispatch = useDispatch();
-  const {closeModal} = props;
-  const {contacts, profile} = useSelector(state => ({
+export default function AddContact(props: {
+  closeModal: any;
+  contact: Contact;
+  editing?: boolean;
+}): JSX.Element {
+  const {closeModal, contact, updateContacts, editing} = props;
+  const {contacts} = useSelector(state => ({
     contacts: state.contactsReducer.contacts,
-    profile: state.authReducer.profile,
   }));
-  const {number} = profile;
-  const updateDetails = (contacts: any[], newContact: any) => {
-    usersCollection
-      .doc(number)
-      .update({contacts})
-      .then(() => {
-        dispatch(addContact(newContact));
-      });
-  };
+
   return (
     <HeaderWrapper
       onBackPress={() => closeModal && closeModal()}
-      title={'New Contact'}>
+      title={editing ? 'Edit Contact' : 'New Contact'}>
       <View style={styles.container}>
         <Margin marginBottom={52}>
-          <Text>Add an emergency contact</Text>
+          <Text>{editing ? 'Edit Contact' : 'Add an emergency contact'}</Text>
         </Margin>
         <View style={styles.form}>
           <Formik
-            initialValues={{number: '', name: ''}}
-            onSubmit={() => null}
+            initialValues={{
+              number: editing ? contact.number : '',
+              name: editing ? contact.name : '',
+            }}
+            onSubmit={() => {}}
             validationSchema={globalValidationScheme}>
-            {({handleChange, setFieldTouched, touched, errors, values}) => (
+            {({
+              handleChange,
+              setFieldTouched,
+              isValid,
+              touched,
+              errors,
+              values,
+            }) => (
               <>
                 <Input
                   autoCapitalize="none"
@@ -68,12 +70,33 @@ export default function AddContact(props: {closeModal: any}): JSX.Element {
                 />
                 <Margin marginTop={52} />
                 <TouchableOpacity
+                  // disabled={!isValid}
                   onPress={() => {
-                    updateDetails(
-                      [...contacts, {name: values.name, number: values.number}],
-                      {name: values.name, number: values.number},
-                    );
-                    closeModal && closeModal();
+                    
+                    if (editing) {
+                      const index = contacts.findIndex(
+                        (c: Contact) => c.name === contact.name,
+                      );
+                      if (index > 0) {
+                        const newList = [...contacts];
+                        newList[index] = {
+                          name: values.name,
+                          number: values.number,
+                        };
+                        updateContacts(newList);
+                      }
+                    } else {
+                      const newContact = {
+                        name: values.name,
+                        number: values.number,
+                      };
+
+                      updateContacts(
+                        [...contacts, newContact],
+                        newContact,
+                        true,
+                      );
+                    }
                   }}
                   style={styles.continue}>
                   <Text style={[styles.text, styles.textBold]}>Continue</Text>

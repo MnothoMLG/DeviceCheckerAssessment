@@ -2,13 +2,26 @@ import React from 'react';
 import {View} from 'react-native';
 import PhoneIcon from '../../assets/icons/PhoneIcon';
 import ProfileIcon from '../../assets/icons/ProfileIcon';
-import {Image, Text} from '../../components';
-import {Colors, Fonts, shadow} from '../../constants';
+import {Text} from '../../components';
+import {Colors, Fonts} from '../../constants';
 import {Row} from '../layout/layout';
 import styles from './styles';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
+import {Contact} from '../../redux/modules/contacts/types';
 
-const MenuItem = props => {
-  const {item} = props;
+interface Props {
+  item: Contact;
+  onDelete: () => void;
+  onEdit: () => void;
+}
+
+const MenuItem = (props: Props) => {
+  const {item, onDelete, onEdit} = props;
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -22,7 +35,7 @@ const MenuItem = props => {
         <Row>
           <PhoneIcon size={16} />
           <Text ml={1} font={Fonts.barText} color={Colors.black}>
-            {'+27 1235 5635'}
+            {item.number}
           </Text>
         </Row>
       </View>
@@ -31,11 +44,25 @@ const MenuItem = props => {
         style={{
           width: 10,
           height: 30,
-          backgroundColor: '#000',
           position: 'absolute',
           right: 10,
-        }}
-      />
+        }}>
+        <Menu>
+          <MenuTrigger
+            style={{
+              width: 10,
+              height: 30,
+              backgroundColor: '#000',
+              position: 'absolute',
+              right: 10,
+            }}
+          />
+          <MenuOptions>
+            <MenuOption onSelect={() => onEdit && onEdit()} text="Edit" />
+            <MenuOption onSelect={() => onDelete && onDelete()} text="Delete" />
+          </MenuOptions>
+        </Menu>
+      </View>
     </View>
   );
 };
