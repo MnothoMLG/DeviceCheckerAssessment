@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     ...fonts.headingBold,
   },
   backImageSize: {
-    width: 16,
+    width: 24,
     justifyContent: 'center',
-    height: 16,
+    height: 24,
   },
   justifyContent: {
     alignItems: 'center',
