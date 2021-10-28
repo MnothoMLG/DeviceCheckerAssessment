@@ -38,7 +38,7 @@ const Entry = () => {
   function onAuthStateChanged(user) {
     if (user) {
       const number = user.phoneNumber;
-      usersCollection.doc(number || '').onSnapshot(documentSnapshot => {
+      usersCollection.doc(number).onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists && documentSnapshot.data().name) {
           const {
             message = strings.defaultAlertMsg,
@@ -49,7 +49,9 @@ const Entry = () => {
           dispatch(storeContacts(contacts));
           dispatch(profileCompleted());
         } else {
-          dispatch(updateProfile({number, name: ''}));
+          dispatch(
+            updateProfile({number, name: '', message: strings.defaultAlertMsg}),
+          );
           dispatch(profileIncomplete());
         }
         dispatch(endLoading());

@@ -44,6 +44,7 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
 
   const updateUserProfile = (name: string) => {
+    console.log('number ====> ', {number, profile, message});
     dispatch(startLoading());
     usersCollection
       .doc(number)
