@@ -5,27 +5,53 @@ import {StatusBar} from 'react-native';
  */
 import React, {useEffect, useState} from 'react';
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import Home from './navigation/NavigationStack';
+import AuthedNav from './navigation/NavigationStack';
 import {store} from './redux/root.store';
 import AuthStackNav from './navigation/AuthStackNavigator';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {MenuProvider} from 'react-native-popup-menu';
 import {Center} from './components/layout/layout';
-import {login} from './redux/modules/auth/actions';
+import {
+  login,
+  profileCompleted,
+  profileIncomplete,
+  updateProfile,
+} from './redux/modules/auth/actions';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 import ToastComponet from './components/Toast';
+import {storeContacts} from './redux/modules/contacts/actions';
+import {endLoading} from './redux/modules/loading/actions';
+import strings from './constants/strings';
 console.disableYellowBox = true;
+
+const usersCollection = firestore().collection('users');
 
 const Entry = () => {
   const {authReducer, loadingReducer} = useSelector(state => state);
   const {loading} = loadingReducer;
-  const [user, setUser] = useState();
   const dispatch = useDispatch();
   const [initializing, setInitializing] = useState(true);
 
   function onAuthStateChanged(user) {
-    setUser(user);
     if (user) {
+      const number = user.phoneNumber;
+      usersCollection.doc(number || '').onSnapshot(documentSnapshot => {
+        if (documentSnapshot.exists && documentSnapshot.data().name) {
+          const {
+            message = strings.defaultAlertMsg,
+            contacts = [],
+            name,
+          } = documentSnapshot.data() as any;
+          dispatch(updateProfile({number, name, message}));
+          dispatch(storeContacts(contacts));
+          dispatch(profileCompleted());
+        } else {
+          dispatch(updateProfile({number}));
+          dispatch(profileIncomplete());
+        }
+        dispatch(endLoading());
+      });
       dispatch(login());
     }
     if (initializing) {
@@ -52,7 +78,7 @@ const Entry = () => {
       <StatusBar backgroundColor={'#EC131C'} barStyle="dark-content">
         {' '}
       </StatusBar>
-      {!authReducer.loggedIn ? <AuthStackNav /> : <Home />}
+      {!authReducer.loggedIn ? <AuthStackNav /> : <AuthedNav />}
     </>
   );
 };

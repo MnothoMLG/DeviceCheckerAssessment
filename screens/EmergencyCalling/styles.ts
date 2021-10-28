@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native';
 import {Fonts, Metrics} from '../../constants';
 
 const styles = StyleSheet.create({
@@ -12,7 +12,16 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.base * 4.5,
     paddingHorizontal: Metrics.base * 3,
     paddingVertical: 20,
-  }
-})
+  },
+
+  btnWrapper: {
+    width: 200,
+    height: 42,
+    borderRadius: 4,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default styles;

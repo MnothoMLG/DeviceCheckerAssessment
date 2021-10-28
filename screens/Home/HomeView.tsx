@@ -1,6 +1,13 @@
 //import liraries
 import React, {useEffect, useState} from 'react';
-import {View, SafeAreaView, TouchableOpacity, Text, Modal} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Text,
+  Modal,
+  Alert,
+} from 'react-native';
 import images from '../../assets/images';
 import {Image} from '../../components';
 import {Margin} from '../../components/layout/layout';
@@ -11,11 +18,11 @@ import firestore from '@react-native-firebase/firestore';
 import AddProfile from './AddProfile';
 import {updateProfile} from '../../redux/modules/auth/actions';
 import {useDispatch, useSelector} from 'react-redux';
-import {storeContacts} from '../../redux/modules/contacts/actions';
 import {startLoading, endLoading} from '../../redux/modules/loading/actions';
 import Geolocation from '@react-native-community/geolocation';
 import flashMessage from '../../utils/showFlashMessage';
 import styles from './styles';
+// import {loadingDataDone} from '../../actions/appActions';
 const usersCollection = firestore().collection('users');
 
 // create a component
@@ -23,13 +30,17 @@ const HomeScreen = () => {
   const [showEmergency, setShow] = useState(false);
   const [touches, setTouches] = useState<number>(1);
   const [latLng, setLatLng] = useState<string>('');
-  const [profileVisible, showProfile] = useState(false);
-  const {profile} = useSelector(state => ({
+  const {profile, contacts, profileComplete} = useSelector(state => ({
     profile: state.authReducer.profile,
+    profileComplete: state.authReducer.profileComplete,
     contacts: state.contactsReducer.contacts,
   }));
-  const nums = ['+27680189220', '+27 67 218 8754']; //contacts.map(c => c.number);
-  const {number} = profile;
+
+  const state = useSelector(state => state);
+
+  console.log({state, contacts});
+  const nums = contacts.map(c => c.number);
+  const {number, name} = profile;
   const dispatch = useDispatch();
 
   const updateUserProfile = (name: string) => {
@@ -58,32 +69,27 @@ const HomeScreen = () => {
       msg: message + text + mapLink,
       emergencyContacts: nums,
     });
-    // setTimeout(() => dispatch(endLoading()), 2000);
+    setTimeout(() => flashMessage('success', 'Alert sent'));
   };
 
   const flagSafety = () => {
     // dispatch(startLoading());
     setShow(false);
     sendSMS({
-      msg: 'Worry not, I have been attended to and am safe.',
+      msg: `Worry not, I have been attended to and am safe. PS, ${name}`,
       emergencyContacts: nums,
     });
-
-    // setTimeout(() => dispatch(endLoading()), 2000);
+    setTimeout(() => flashMessage('success', 'Alert sent'));
   };
 
+  const locationAlert = () =>
+    Alert.alert(
+      'Location',
+      "Please go allow the app to use the location in your device settings.\nOnce that's done, restar your app",
+      [{text: 'OK', onPress: () => {}}],
+    );
+
   useEffect(() => {
-    dispatch(startLoading());
-    usersCollection.doc(number).onSnapshot(documentSnapshot => {
-      if (documentSnapshot.exists) {
-        const {message, contacts, name} = documentSnapshot.data() as any;
-        dispatch(updateProfile({...profile, name, message}));
-        dispatch(storeContacts(contacts));
-      } else {
-        showProfile(true);
-      }
-      dispatch(endLoading());
-    });
     Geolocation.getCurrentPosition(
       pos => {
         const {
@@ -93,6 +99,7 @@ const HomeScreen = () => {
       },
       err => {
         console.log(' had an error here', {err});
+        locationAlert();
       },
     );
 
@@ -105,19 +112,19 @@ const HomeScreen = () => {
       },
       () => {
         console.log('some error occured');
+        locationAlert();
       },
     );
   }, []);
 
   return [
-    <SafeAreaView style={{backgroundColor: Colors.white}} />,
-    <Modal animationType="slide" visible={profileVisible}>
-      <AddProfile
-        closeModal={() => showProfile(false)}
-        updateProfile={updateUserProfile}
-      />
-    </Modal>,
     <EmergencyCalling onSafe={() => flagSafety()} visible={showEmergency} />,
+    <SafeAreaView
+      style={{backgroundColor: showEmergency ? '#FF2D55' : Colors.white}}
+    />,
+    <Modal animationType="slide" visible={!profileComplete}>
+      <AddProfile closeModal={() => {}} updateProfile={updateUserProfile} />
+    </Modal>,
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {

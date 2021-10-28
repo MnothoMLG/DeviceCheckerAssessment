@@ -14,6 +14,7 @@ export default function AddProfile(props: {
   return (
     <HeaderWrapper
       hideback
+      useKeyboardScrollView
       onBackPress={() => closeModal && closeModal()}
       title={'Profile Details'}>
       <View style={styles.container}>

@@ -1,14 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {createReducer} from '@reduxjs/toolkit';
-import {login, logout, updateProfile} from './actions';
+import {
+  login,
+  logout,
+  profileCompleted,
+  profileIncomplete,
+  updateProfile,
+} from './actions';
 
 const INITIAL_STATE = {
   loggedIn: false,
   profile: {
-    number: 'testnumberID',
-    name: null,
+    number: '',
+    name: '',
     message: 'Hi, I need your help. Urgently. Here are my co-ordinates',
   },
+  profileComplete: false,
 };
 
 export const authReducer = createReducer(INITIAL_STATE, builder => {
@@ -20,6 +27,12 @@ export const authReducer = createReducer(INITIAL_STATE, builder => {
   });
   builder.addCase(updateProfile, (state, action) => {
     const {payload} = action;
-    return {...state, profile: payload};
+    return {...state, profile: payload, profileComplete: true};
+  });
+  builder.addCase(profileCompleted, (state, action) => {
+    return {...state, profileComplete: true};
+  });
+  builder.addCase(profileIncomplete, (state, action) => {
+    return {...state, profileComplete: false};
   });
 });

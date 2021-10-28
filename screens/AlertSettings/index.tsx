@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text as RnText, TouchableOpacity, Switch} from 'react-native';
+import {
+  View,
+  Text as RnText,
+  TouchableOpacity,
+  Switch,
+  Platform,
+} from 'react-native';
 import Input from '../../components/Input';
 import {useNavigation} from '@react-navigation/native';
 import {Formik} from 'formik';
@@ -13,6 +19,8 @@ import {endLoading, startLoading} from '../../redux/modules/loading/actions';
 import styles from './styles';
 import {updateProfile} from '../../redux/modules/auth/actions';
 import flashMessage from '../../utils/showFlashMessage';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 const usersCollection = firestore().collection('users');
 
 export default function AlertSettings(): JSX.Element {
@@ -36,7 +44,13 @@ export default function AlertSettings(): JSX.Element {
       .finally(() => setTimeout(() => dispatch(endLoading()), 2000));
   };
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      keyboardShouldPersistTaps={"handled"}
+      enableResetScrollToCoords={false}
+      extraHeight={Platform.OS === 'ios' ? -64 : undefined}
+      testID={'scrollview'}
+      contentContainerStyle={styles.container}>
       <SwitchSetting
         description="Send an Email to your mail list and your organisation on help request"
         setting="Email"
@@ -72,7 +86,7 @@ export default function AlertSettings(): JSX.Element {
           )}
         </Formik>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 

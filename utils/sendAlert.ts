@@ -3,7 +3,7 @@ import flashMessage from './showFlashMessage';
 
 if (__DEV__) {
   // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-  functions().useFunctionsEmulator('http://localhost:5001');
+  // functions().useFunctionsEmulator('http://localhost:5001');
 }
 const pushSMS = functions().httpsCallable('sendAlertSMS');
 const sendSMS = ({

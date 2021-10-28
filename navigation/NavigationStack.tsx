@@ -1,6 +1,6 @@
 import React from 'react';
 import Search from '../screens/Search';
-import Home from '../screens/Home/HomeView';
+import LandingScreen from '../screens/Home/HomeView';
 import ProductList from '../screens/ContactList';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -19,21 +19,6 @@ import HelpIcon from '../assets/icons/HelpIcon';
 const Tab = createBottomTabNavigator();
 
 const Stack = createStackNavigator();
-
-function HomeStack() {
-  return (
-    <Stack.Navigator screenOptions={{header: () => null}}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen
-        options={{
-          header: () => <EditHeader header={'headerTitle'} />,
-        }}
-        name="ProductList"
-        component={ProductList}
-      />
-    </Stack.Navigator>
-  );
-}
 
 function SettingsStack() {
   return (
@@ -74,7 +59,7 @@ function MyTabs() {
             header: () => null,
           }}
           name="Home"
-          component={HomeStack}
+          component={LandingScreen}
         />
         <Tab.Screen
           options={{

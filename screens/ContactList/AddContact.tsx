@@ -20,6 +20,7 @@ export default function AddContact(props: {
 
   return (
     <HeaderWrapper
+      useKeyboardScrollView
       onBackPress={() => closeModal && closeModal()}
       title={editing ? 'Edit Contact' : 'New Contact'}>
       <View style={styles.container}>
@@ -62,6 +63,7 @@ export default function AddContact(props: {
                   style={styles.input}
                   placeholder="+27"
                   label="Mobile Number"
+                  keyboardType="phone-pad"
                   required
                   onChangeText={handleChange('number')}
                   onBlur={() => setFieldTouched('number')}

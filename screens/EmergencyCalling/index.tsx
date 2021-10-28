@@ -2,14 +2,16 @@ import React from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import PhoneIcon from '../../assets/icons/PhoneIcon';
-
 import {Text} from '../../components';
 import styles from './styles';
 import {Margin} from '../../components/layout/layout';
 import {Fonts} from '../../constants';
+import Pulse from 'react-native-pulse';
 
 const EmergencyCalling = (props: {visible: any; onSafe: any}) => {
   const contacts = useSelector(state => state.contactsReducer.contacts);
+
+  console.log('contacts in emergency ', {contacts});
   const {visible, onSafe} = props;
 
   return (
@@ -25,7 +27,15 @@ const EmergencyCalling = (props: {visible: any; onSafe: any}) => {
             Emergency Calling...
           </Text>
         </View>
-
+        <View style={{position: 'absolute', top: 210}}>
+          <Pulse
+            color="#fff"
+            numPulses={6}
+            diameter={400}
+            speed={20}
+            duration={2000}
+          />
+        </View>
         <View
           style={{
             width: 200,

@@ -6,3 +6,6 @@ export const updateProfile = createAction<{
   number: string;
   message?: string;
 }>('@AUTH/UPDATE_PROFILE');
+
+export const profileIncomplete = createAction('@AUTH/INCOMPLETE_PROFILE');
+export const profileCompleted = createAction('@AUTH/COMPLETE_PROFILE');

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Platform} from 'react-native';
 import Input from '../../components/Input';
 import {Formik} from 'formik';
 import {Margin} from '../../components/layout/layout';
@@ -10,6 +10,9 @@ import {endLoading, startLoading} from '../../redux/modules/loading/actions';
 import {Text} from '../../components';
 import {globalValidationScheme} from '../../utils/Validation';
 import flashMessage from '../../utils/showFlashMessage';
+import firestore from '@react-native-firebase/firestore';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+const usersCollection = firestore().collection('users');
 
 export default function LoginScreen(): JSX.Element {
   const dispatch = useDispatch();
@@ -21,46 +24,50 @@ export default function LoginScreen(): JSX.Element {
     try {
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
       setConfirm(confirmation);
-      storeNumber(phoneNumber);
-    } catch {
+    } catch (err) {
+      console.log(' this error occured', {err});
       flashMessage('danger', 'An Error Occured');
     } finally {
       setTimeout(() => dispatch(endLoading()), 2000);
     }
   }
 
-  async function confirmCode(code: string) {
+  async function confirmCode(code: string, number: string) {
     try {
       dispatch(startLoading());
       await confirm?.confirm(code);
-      dispatch(login());
+      dispatch(updateProfile({...profile, number}));
       dispatch(endLoading());
     } catch (error) {
+      console.log(' code error ', {error});
       flashMessage('danger', 'Invalid code');
       dispatch(endLoading());
     }
   }
 
-  const storeNumber = (number: string) =>
-    dispatch(updateProfile({number, name: ''}));
-
   return (
     <>
-      <View style={styles.container}>
-        <Margin marginBottom={52}>
-          <Text>
-            {confirm
-              ? `Enter the OTP sent by SMS to\n${profile.number}`
-              : 'Enter your phone number to proceeed'}
-          </Text>
-        </Margin>
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        keyboardShouldPersistTaps={'handled'}
+        enableResetScrollToCoords={false}
+        extraHeight={Platform.OS === 'ios' ? -64 : undefined}
+        testID={'scrollview'}
+        contentContainerStyle={styles.container}>
         <View style={styles.form}>
           <Formik
-            initialValues={{number: '', code: ''}}
-            onSubmit={() => null}
+            initialValues={{number: '+27', code: ''}}
+            onSubmit={() => {}}
             validationSchema={globalValidationScheme}>
             {({handleChange, setFieldTouched, touched, errors, values}) => (
               <>
+                <Margin marginBottom={52}>
+                  <Text styles={{text: {lineHeight: 20}}} align="center">
+                    {confirm
+                      ? `Enter the OTP sent by SMS to\n${values.number}`
+                      : 'Enter your phone number to proceeed'}
+                  </Text>
+                </Margin>
                 {confirm ? (
                   <Input
                     autoCapitalize="none"
@@ -68,6 +75,7 @@ export default function LoginScreen(): JSX.Element {
                     placeholder={'OTP Code'}
                     label={'OTP Code'}
                     required
+                    keyboardType="phone-pad"
                     onChangeText={handleChange('code')}
                     onBlur={() => setFieldTouched('code')}
                     value={values.code}
@@ -81,6 +89,7 @@ export default function LoginScreen(): JSX.Element {
                     placeholder={'+27'}
                     maxLength={12}
                     label={'Mobile Number'}
+                    keyboardType="phone-pad"
                     required
                     onChangeText={handleChange('number')}
                     onBlur={() => setFieldTouched('number')}
@@ -93,7 +102,7 @@ export default function LoginScreen(): JSX.Element {
                 <TouchableOpacity
                   onPress={() => {
                     confirm
-                      ? confirmCode(values.code)
+                      ? confirmCode(values.code, values.number)
                       : signInWithPhoneNumber(values.number);
                   }}
                   style={styles.continue}>
@@ -102,12 +111,14 @@ export default function LoginScreen(): JSX.Element {
                   </Text>
                 </TouchableOpacity>
 
-                <Text mt={2}> Didn't recieve code? Resend</Text>
+                {confirm ? (
+                  <Text mt={2}> Didn't recieve code? Resend</Text>
+                ) : null}
               </>
             )}
           </Formik>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
     </>
   );
 }

@@ -28,6 +28,7 @@ export default StyleSheet.create({
     borderRadius: 5,
     padding: 4,
     fontSize: 15,
+    color: '#00000080',
   },
   error: {
     alignSelf: 'flex-start',
