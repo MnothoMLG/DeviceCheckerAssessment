@@ -4,8 +4,7 @@ import Input from '../../components/Input';
 import {Formik} from 'formik';
 import {Margin} from '../../components/layout/layout';
 import auth from '@react-native-firebase/auth';
-import {login, updateProfile} from '../../redux/modules/auth/actions';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {endLoading, startLoading} from '../../redux/modules/loading/actions';
 import {Text} from '../../components';
 import {globalValidationScheme} from '../../utils/Validation';
@@ -17,8 +16,6 @@ const usersCollection = firestore().collection('users');
 export default function LoginScreen(): JSX.Element {
   const dispatch = useDispatch();
   const [confirm, setConfirm] = useState(null);
-  const profile = useSelector(state => state.authReducer.profile);
-
   async function signInWithPhoneNumber(phoneNumber: string) {
     dispatch(startLoading());
     try {
@@ -36,7 +33,6 @@ export default function LoginScreen(): JSX.Element {
     try {
       dispatch(startLoading());
       await confirm?.confirm(code);
-      dispatch(updateProfile({...profile, number}));
       dispatch(endLoading());
     } catch (error) {
       console.log(' code error ', {error});
@@ -112,7 +108,12 @@ export default function LoginScreen(): JSX.Element {
                 </TouchableOpacity>
 
                 {confirm ? (
-                  <Text mt={2}> Didn't recieve code? Resend</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      signInWithPhoneNumber(values.number);
+                    }}>
+                    <Text mt={2}> Didn't recieve code? Resend</Text>
+                  </TouchableOpacity>
                 ) : null}
               </>
             )}

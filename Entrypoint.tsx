@@ -23,6 +23,8 @@ import ToastComponet from './components/Toast';
 import {storeContacts} from './redux/modules/contacts/actions';
 import {endLoading} from './redux/modules/loading/actions';
 import strings from './constants/strings';
+import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+
 console.disableYellowBox = true;
 
 const usersCollection = firestore().collection('users');
@@ -47,7 +49,7 @@ const Entry = () => {
           dispatch(storeContacts(contacts));
           dispatch(profileCompleted());
         } else {
-          dispatch(updateProfile({number}));
+          dispatch(updateProfile({number, name: ''}));
           dispatch(profileIncomplete());
         }
         dispatch(endLoading());
@@ -59,7 +61,33 @@ const Entry = () => {
     }
   }
 
+  const locationAlert = () =>
+    Alert.alert(
+      'Location',
+      "Please go allow the app to use the location in your device settings.\nOnce that's done, restar your app",
+      [{text: 'OK', onPress: () => {}}],
+    );
   useEffect(() => {
+    request(PERMISSIONS.IOS.LOCATION_ALWAYS).then(result => {
+      switch (result) {
+        case RESULTS.UNAVAILABLE:
+          locationAlert();
+          break;
+        case RESULTS.DENIED:
+          locationAlert();
+          break;
+        case RESULTS.LIMITED:
+          locationAlert();
+          break;
+        case RESULTS.GRANTED:
+          console.log('The permission is granted');
+          break;
+        case RESULTS.BLOCKED:
+          locationAlert();
+          break;
+      }
+    });
+
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);

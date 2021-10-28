@@ -22,8 +22,8 @@ export const authReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(login, state => {
     return {...state, loggedIn: true};
   });
-  builder.addCase(logout, state => {
-    return {...state, loggedIn: false};
+  builder.addCase(logout, () => {
+    return {...INITIAL_STATE};
   });
   builder.addCase(updateProfile, (state, action) => {
     const {payload} = action;

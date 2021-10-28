@@ -12,7 +12,7 @@ import AddContact from './AddContact';
 import ContactCard from '../../components/menuItem';
 import styles from './styles';
 import {endLoading, startLoading} from '../../redux/modules/loading/actions';
-import {addContact} from '../../redux/modules/contacts/actions';
+import {addContact, storeContacts} from '../../redux/modules/contacts/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import {Contact} from '../../redux/modules/contacts/types';
@@ -33,7 +33,7 @@ const ContactList = props => {
   const renderContacts = () => {
     if (contacts.length === 0) {
       return (
-        <Margin style={{paddingHorizontal : 20}}>
+        <Margin style={{paddingHorizontal: 20}}>
           <Text numberOfLines={3} align="center">
             {
               'No contacts here.\nClick add and start saving emergency contact persons'
@@ -81,23 +81,16 @@ const ContactList = props => {
     );
   };
 
-  const updateContacts = (
-    newContacts: Contact[],
-    newContact?: Contact,
-    adding?: boolean,
-  ) => {
+  const updateContacts = (newContacts: Contact[]) => {
     setShowAdd(false);
-    // dispatch(startLoading());
     usersCollection
       .doc(number)
       .update({contacts: newContacts})
       .then(() => {
-        if (adding && newContact) {
-          dispatch(addContact(newContact));
-        }
+        dispatch(storeContacts(newContacts));
         flashMessage('success', 'Contacts updated');
       })
-      .catch(err => {
+      .catch(() => {
         flashMessage('danger', 'An error occured');
       })
       .finally(() => {

@@ -40,15 +40,14 @@ const HomeScreen = () => {
 
   console.log({state, contacts});
   const nums = contacts.map(c => c.number);
-  const {number, name} = profile;
+  const {number, name, message} = profile;
   const dispatch = useDispatch();
 
   const updateUserProfile = (name: string) => {
-    //call update profileaction
     dispatch(startLoading());
     usersCollection
       .doc(number)
-      .set({name})
+      .set({name, message})
       .then(() => {
         dispatch(updateProfile({...profile, name}));
         flashMessage('success', 'Profile updated');
@@ -60,7 +59,6 @@ const HomeScreen = () => {
   };
 
   const fireAlert = () => {
-    // dispatch(startLoading());
     const {message} = profile;
     const text = '. Here is my location \n';
     const mapLink = `http://www.google.com/maps/place/${latLng}`;
@@ -73,7 +71,6 @@ const HomeScreen = () => {
   };
 
   const flagSafety = () => {
-    // dispatch(startLoading());
     setShow(false);
     sendSMS({
       msg: `Worry not, I have been attended to and am safe. PS, ${name}`,

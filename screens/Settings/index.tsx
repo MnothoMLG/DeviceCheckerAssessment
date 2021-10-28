@@ -2,7 +2,6 @@ import React from 'react';
 import {ScrollView, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {Text} from '../../components';
-import {Fonts} from '../../constants';
 import {Colors} from '../../constants';
 import icons from '../../assets/icons';
 import PhoneIcon from '../../assets/icons/PhoneIcon';
@@ -11,7 +10,7 @@ import BackIcon from '../../assets/icons/BackIcon';
 import {logout} from '../../redux/modules/auth/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {startLoading, endLoading} from '../../redux/modules/loading/actions';
-import { Margin } from '../../components/layout/layout';
+import {Margin} from '../../components/layout/layout';
 
 const Settings = () => {
   const navigation = useNavigation();
@@ -19,17 +18,17 @@ const Settings = () => {
   const profile = useSelector(state => state.authReducer.profile);
   const {name} = profile;
 
-  const logUserOut = () => {
+  const logUserOut = async () => {
     dispatch(startLoading());
-    auth()
-      .signOut()
-      .then((res: any) => {
-        dispatch(logout());
-      })
-      .catch(err => {})
-      .finally(() => {
-        dispatch(endLoading());
-      });
+
+    try {
+      await auth().currentUser?.delete();
+      await auth().signOut();
+    } catch (err) {
+    } finally {
+      dispatch(logout());
+      dispatch(endLoading());
+    }
   };
 
   const renderUserDetails = () => (
@@ -100,8 +99,6 @@ const Settings = () => {
             <Margin marginTop={142} />
             {renderMenuOpt({displayName: 'Logout', icon: <BackIcon />})}
           </View>
-
-
         </View>
       </ScrollView>
     </SafeAreaView>

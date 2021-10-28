@@ -93,11 +93,7 @@ export default function AddContact(props: {
                         number: values.number,
                       };
 
-                      updateContacts(
-                        [...contacts, newContact],
-                        newContact,
-                        true,
-                      );
+                      updateContacts([...contacts, newContact]);
                     }
                   }}
                   style={styles.continue}>
