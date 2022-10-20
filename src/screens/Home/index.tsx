@@ -12,9 +12,6 @@ const Home: React.FC = () => {
   const onLogout = () => {}; //dispatch(loginActions.logOut());
   const {name} = useSelector(getAuthState);
   const {navigate} = useNavigation();
-  const goBack = () => {
-    onLogout();
-  };
 
   return (
     <View style={styles.container}>
@@ -62,6 +59,9 @@ const Home: React.FC = () => {
           containerStyles={styles.swipeContainer}
           railBackgroundColor={colors.background.bgDark}
           thumbIconStyles={styles.thumbIconStyles}
+          titleColor={colors.background.primary}
+          titleFontSize={14}
+          railBorderColor={colors.background.secondary}
           thumbIconBackgroundColor={colors.background.transparent}
           thumbIconBorderColor="rgba(0, 0, 0, 0)"
           railStyles={styles.railStyles}

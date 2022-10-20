@@ -14,6 +14,7 @@
 		6172F2D35A4C3AA820D92908 /* libPods-kwikBite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-kwikBite.a */; };
 		7EF68E3733C33B6898317E18 /* libPods-kwikBite-kwikBiteTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-kwikBite-kwikBiteTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		DD9F030A290207350035C857 /* PlatformCheckModule.m in Sources */ = {isa = PBXBuildFile; fileRef = DD9F0309290207350035C857 /* PlatformCheckModule.m */; };
 		DDC5E7D627160B9100FB80DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDC5E7D527160B9100FB80DF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,8 @@
 		ABFE59519B596E51CEFDCCC0 /* libPods-kwikBite-kwikBiteTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-kwikBite-kwikBiteTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A881CF5CF3F2B244570E2A /* Pods-kwikBite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kwikBite.debug.xcconfig"; path = "Target Support Files/Pods-kwikBite/Pods-kwikBite.debug.xcconfig"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-kwikBite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kwikBite.release.xcconfig"; path = "Target Support Files/Pods-kwikBite/Pods-kwikBite.release.xcconfig"; sourceTree = "<group>"; };
+		DD9F03082902065F0035C857 /* PlatformCheckModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlatformCheckModule.h; sourceTree = "<group>"; };
+		DD9F0309290207350035C857 /* PlatformCheckModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlatformCheckModule.m; sourceTree = "<group>"; };
 		DDC5E7D527160B9100FB80DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DDC8A4772728830900A9D36C /* kwikBite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = kwikBite.entitlements; path = kwikBite/kwikBite.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -97,6 +100,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				DD9F03082902065F0035C857 /* PlatformCheckModule.h */,
+				DD9F0309290207350035C857 /* PlatformCheckModule.m */,
 			);
 			name = kwikBite;
 			sourceTree = "<group>";
@@ -430,6 +435,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD9F030A290207350035C857 /* PlatformCheckModule.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
