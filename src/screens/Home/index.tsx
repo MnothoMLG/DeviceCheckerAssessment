@@ -4,7 +4,9 @@ import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {AppButton, Margin, Padding, Text} from '../../components';
 import {getAuthState} from '../../store/auth/selectors';
+import SwipeButton from 'rn-swipe-button';
 import styles from './styles';
+import {colors} from '../../theme';
 
 const Home: React.FC = () => {
   const onLogout = () => {}; //dispatch(loginActions.logOut());
@@ -51,12 +53,30 @@ const Home: React.FC = () => {
           label={'Primary'}
         />
         <Margin mb={12} />
-        <AppButton
-          label="back"
-          mode="outlined"
-          fullWidth
-          rounded
-          onPress={goBack}
+        <SwipeButton
+          height={52}
+          shouldResetAfterSuccess
+          onSwipeSuccess={() => {
+            navigate('DeviceCheck');
+          }}
+          containerStyles={styles.swipeContainer}
+          railBackgroundColor={colors.background.bgDark}
+          thumbIconStyles={styles.thumbIconStyles}
+          thumbIconBackgroundColor={colors.background.transparent}
+          thumbIconBorderColor="rgba(0, 0, 0, 0)"
+          railStyles={styles.railStyles}
+          thumbIconComponent={() => (
+            <View
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: colors.background.primary,
+                borderRadius: 8,
+              }}
+            />
+          )}
+          thumbIconWidth={56}
+          title={'Slide me to continue'}
         />
       </Padding>
     </View>
