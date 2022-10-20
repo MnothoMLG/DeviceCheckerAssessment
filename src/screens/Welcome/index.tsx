@@ -30,30 +30,33 @@ const Welcome: React.FC = () => {
             touched,
             errors,
             values,
-          }) => (
-            <>
-              <Input
-                autoCapitalize="none"
-                style={styles.input}
-                placeholder="Name"
-                label="Name"
-                required
-                maxLength={12}
-                onChangeText={handleChange('name')}
-                onBlur={() => setFieldTouched('name')}
-                value={values.name}
-                error={errors.name}
-                touched={touched.name}
-              />
-              <Margin marginTop={16} />
-              <TouchableOpacity
-                // disabled={!isValid}
-                onPress={() => {}}
-                style={styles.continue}>
-                <Text style={[styles.text, styles.textBold]}>Continue</Text>
-              </TouchableOpacity>
-            </>
-          )}
+          }) => {
+            console.log({errors});
+            return (
+              <>
+                <Input
+                  autoCapitalize="none"
+                  style={styles.input}
+                  placeholder="Name"
+                  label="Name"
+                  required
+                  maxLength={12}
+                  onChangeText={handleChange('name')}
+                  onBlur={() => setFieldTouched('name')}
+                  value={values.name}
+                  error={errors.name}
+                  touched={touched.name}
+                />
+                <Margin marginTop={16} />
+                <TouchableOpacity
+                  // disabled={!isValid}
+                  onPress={() => {}}
+                  style={styles.continue}>
+                  <Text style={[styles.text, styles.textBold]}>Continue</Text>
+                </TouchableOpacity>
+              </>
+            );
+          }}
         </Formik>
       </View>
     </View>
