@@ -1,9 +1,8 @@
 import {StyleSheet} from 'react-native';
-import {Colors} from '../../constants';
 import fonts from '../../constants/fonts';
+import {colors} from '../../theme';
 
 const styles = StyleSheet.create({
-
   wrapper: {
     width: '100%',
     height: 84,
@@ -16,7 +15,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   editHeader: {
-    backgroundColor: Colors.white,
+    backgroundColor: colors.typography.static,
     height: 54,
   },
   content: {
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   editHeaderHeading: {
-    color: Colors.black,
+    color: colors.background.black,
     ...fonts.headingBold,
   },
   backImageSize: {
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 18,
-    color: Colors.white,
+    color: colors.typography.static,
   },
   container: {
     flexDirection: 'row',
@@ -76,11 +75,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: Colors.white,
+    color: colors.typography.static,
     fontSize: 16,
-    fontFamily: 'roboto',
     lineHeight: 21,
-    fontWeight: 'bold',
   },
 });
 

@@ -5,15 +5,22 @@ import {Formik} from 'formik';
 import {Margin} from '../../components/layout/layout';
 // import HeaderWrapper from '../../components/layout/back-screen';
 import {globalValidationScheme} from '../../utils/Validation';
+import {useDispatch} from 'react-redux';
+import {loginRequest} from '../../store/auth/actions';
 
 const Welcome: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const login = (name: string) => {
+    dispatch(loginRequest({name}));
+  };
   return (
     // <HeaderWrapper
     //   useKeyboardScrollView
     //   onBackPress={() => {}}
     //   title={'Welcome'}>
     <View style={styles.container}>
-      <Margin marginBottom={52}>
+      <Margin mb={52}>
         <Text>{"What's your name"}</Text>
       </Margin>
       <View style={styles.form}>
@@ -47,10 +54,12 @@ const Welcome: React.FC = () => {
                   error={errors.name}
                   touched={touched.name}
                 />
-                <Margin marginTop={16} />
+                <Margin mt={36} />
                 <TouchableOpacity
-                  // disabled={!isValid}
-                  onPress={() => {}}
+                  disabled={!isValid}
+                  onPress={() => {
+                    login(values.name);
+                  }}
                   style={styles.continue}>
                   <Text style={[styles.text, styles.textBold]}>Continue</Text>
                 </TouchableOpacity>

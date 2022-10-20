@@ -4,9 +4,14 @@ import {colors} from '../../theme';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: colors.background.bgDark,
+    justifyContent: 'space-between',
+    paddingVertical: 48,
     alignItems: 'center',
+    backgroundColor: colors.background.bgDark,
+  },
+  containerStyle: {
+    backgroundColor: 'white',
+    padding: 20,
   },
 });
 

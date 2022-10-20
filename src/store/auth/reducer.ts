@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {loginRequest, logoutRequest} from './actions';
+import {loginRequestSuccess, logoutRequest} from './actions';
 import {AuthState} from './types';
 
 const INITIAL_STATE: Partial<AuthState> = {
@@ -9,12 +9,13 @@ const INITIAL_STATE: Partial<AuthState> = {
 
 export const authReducer = createReducer(INITIAL_STATE, builder => {
   builder
-    .addCase(loginRequest, (state, action) => {
+    .addCase(loginRequestSuccess, (state, action) => {
       if (action.payload) {
         const {
           payload: {name},
         } = action;
         state.name = name;
+        state.loggedIn = true;
       }
     })
     .addCase(logoutRequest, () => {

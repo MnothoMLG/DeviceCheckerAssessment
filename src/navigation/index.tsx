@@ -2,7 +2,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
-import Buttons from '../screens/Buttons';
+import Home from '../screens/Home';
 import DeviceCheck from '../screens/PlatformCheck';
 import Welcome from '../screens/Welcome';
 import {StatusBar} from 'react-native';
@@ -14,7 +14,7 @@ const SignedOutStack = createStackNavigator();
 const SignedInStack = createStackNavigator();
 
 const homeOptions = {
-  title: 'Buttons',
+  title: 'Home',
   headerTitleStyle: {
     fontWeight: 'bold',
   },
@@ -34,7 +34,6 @@ const SignedOutNavigator = () => {
         component={Welcome}
         options={{
           animationTypeForReplace: loggedIn ? 'push' : 'pop',
-          //   headerRight: () => <ThemeController />,
         }}
       />
       <Stack.Screen
@@ -42,7 +41,6 @@ const SignedOutNavigator = () => {
         component={DeviceCheck}
         options={{
           animationTypeForReplace: loggedIn ? 'push' : 'pop',
-          //   headerRight: () => <ThemeController />,
         }}
       />
     </SignedOutStack.Navigator>
@@ -51,7 +49,8 @@ const SignedOutNavigator = () => {
 
 const SignedInNavigator = () => (
   <SignedInStack.Navigator>
-    <Stack.Screen name="Buttons" component={Buttons} options={homeOptions} />
+    <Stack.Screen name="Home" component={Home} options={homeOptions} />
+    <Stack.Screen name="DeviceCheck" component={DeviceCheck} />
   </SignedInStack.Navigator>
 );
 
@@ -59,10 +58,10 @@ const RootNavigation: React.FC = () => {
   const {loggedIn} = useSelector(getAuthState);
 
   return (
-    <NavigationContainer >
+    <NavigationContainer>
       <StatusBar barStyle={'dark-content'} />
       <Stack.Navigator headerMode="none">
-        {loggedIn ? (
+        {loggedIn || true ? (
           <Stack.Screen
             name="SignedIn"
             component={SignedInNavigator}
@@ -75,7 +74,6 @@ const RootNavigation: React.FC = () => {
             options={{
               // When logging out, a pop animation feels intuitive
               animationTypeForReplace: loggedIn ? 'push' : 'pop',
-              //   headerRight: () => <ThemeController />,
             }}
           />
         )}

@@ -19,18 +19,12 @@ interface IProps extends TextInputProps {
   onChangeText?: (v: string) => void;
 }
 
-const Input = ({
-  style = {},
-  touched,
-  label,
-  required,
-  error,
-  ...props
-}: IProps) => {
+const Input = ({style = {}, label, required, error, ...props}: IProps) => {
   const textChanged = (text: string): void => {
     props.onChangeText && props.onChangeText(text);
   };
   const [focused, setFocused] = useState(false);
+  const [touched, setTouched] = useState(false);
 
   return (
     <>
@@ -47,10 +41,11 @@ const Input = ({
           style={[styles.input]}
           placeholder={props.placeholder || ''}
           value={props.value}
-          autoCompleteType={props.autoCompleteType} 
+          autoCompleteType={props.autoCompleteType}
           onChangeText={textChanged}
           onFocus={() => {
             setFocused(true);
+            setTouched(true);
             props.onFocus && props.onFocus();
           }}
           onBlur={() => {
@@ -59,7 +54,7 @@ const Input = ({
           }}
         />
       </View>
-      {error && touched && <Text style={styles.error}>{error}</Text>}
+      {error &&  touched && <Text style={styles.error}>{error}</Text>}
     </>
   );
 };
