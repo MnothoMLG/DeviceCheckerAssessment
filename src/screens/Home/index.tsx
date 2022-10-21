@@ -1,21 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View} from 'react-native';
-import {useSelector} from 'react-redux';
-import {AppButton, Margin, Padding, Text} from '../../components';
-import {getAuthState} from '../../store/auth/selectors';
+import {Alert, View} from 'react-native';
+import {AppButton, Margin, Padding} from '../../components';
 import SwipeButton from 'rn-swipe-button';
 import styles from './styles';
 import {colors} from '../../theme';
+import Greeting from '../../components/greetingHeader';
 
 const Home: React.FC = () => {
-  const onLogout = () => {}; //dispatch(loginActions.logOut());
-  const {name} = useSelector(getAuthState);
   const {navigate} = useNavigation();
 
   return (
     <View style={styles.container}>
-      <Text style={{padding: 5}}>{`Hey, ${name}`}</Text>
+      <Greeting />
       <Margin mb={56} />
       <Padding pl={24} pr={24} style={{width: '100%'}}>
         <AppButton
@@ -43,11 +40,20 @@ const Home: React.FC = () => {
           variant="light"
           disabled={false}
           onPress={() => {
-            navigate('DeviceCheck');
+            Alert.alert('Are you sure', 'Do you want to log off?', [
+              {
+                text: 'Yes',
+                onPress: () => {},
+              },
+              {
+                text: 'No',
+                onPress: () => {},
+              },
+            ]);
           }}
           textSize={14}
           rounded
-          label={'Primary'}
+          label={'Log Off'}
         />
         <Margin mb={12} />
         <SwipeButton

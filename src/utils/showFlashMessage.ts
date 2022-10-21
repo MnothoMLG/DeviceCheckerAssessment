@@ -1,15 +1,14 @@
-import Colors from '../constants/colors';
 import {showMessage} from 'react-native-flash-message';
+import {colors} from '../theme';
 
-const flashMessage = (type: 'success' | 'danger', description: string) => {
+const flashMessage = (description: string) => {
   showMessage({
-    message: type === 'success' ? 'success' : 'Error',
+    message: 'Bingo',
     description,
-    type,
+    type: 'info',
     duration: 3000,
-    color: Colors.white,
-    backgroundColor:
-      type === 'success' ? Colors.secondayGreen : Colors.romansRed,
+    color: colors.typography.static,
+    backgroundColor: colors.background.primary,
   });
 };
 
