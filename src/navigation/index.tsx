@@ -13,12 +13,8 @@ const Stack = createStackNavigator();
 const SignedOutStack = createStackNavigator();
 const SignedInStack = createStackNavigator();
 
-const homeOptions = {
-  title: 'Home',
-  headerTitleStyle: {
-    fontWeight: 'bold',
-  },
-  //   headerRight: () => <ThemeController />,
+const navOptions = {
+  header: () => null,
 };
 
 interface IState {
@@ -32,9 +28,7 @@ const SignedOutNavigator = () => {
       <Stack.Screen
         name="Welcome"
         component={Welcome}
-        options={{
-          animationTypeForReplace: loggedIn ? 'push' : 'pop',
-        }}
+        options={navOptions}
       />
     </SignedOutStack.Navigator>
   );
@@ -42,7 +36,7 @@ const SignedOutNavigator = () => {
 
 const SignedInNavigator = () => (
   <SignedInStack.Navigator>
-    <Stack.Screen name="Home" component={Home} options={homeOptions} />
+    <Stack.Screen name="Home" component={Home} options={navOptions} />
     <Stack.Screen name="DeviceCheck" component={DeviceCheck} />
   </SignedInStack.Navigator>
 );
@@ -58,7 +52,7 @@ const RootNavigation: React.FC = () => {
           <Stack.Screen
             name="SignedIn"
             component={SignedInNavigator}
-            options={homeOptions}
+            options={navOptions}
           />
         ) : (
           <Stack.Screen

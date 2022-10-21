@@ -13,10 +13,11 @@ import {StackScreenProps} from '@react-navigation/stack/lib/typescript/src/types
 import {KeyboardAvoidingScrollView} from 'react-native-keyboard-avoiding-scroll-view';
 import {useEffect} from 'react';
 import {Center, Margin, Row} from '../layout';
-// import {useLoading} from '../../../hooks/use-loading.hook';
 import {useNavigation} from '@react-navigation/native';
-// import BackIcon from '../../../assets/icons/BackIcon';
-
+import BackIcon from '../../../assets/icons/back.svg';
+import {useLoading} from '../../../hooks/useLoadingHook';
+import {colors} from '../../../theme';
+import styles from './styles';
 interface IProps {
   title?: string;
   children: React.ReactNode;
@@ -24,9 +25,7 @@ interface IProps {
   onBackPress?: () => void;
   hideback?: boolean;
   useKeyboardScrollView: boolean;
-  feedPage: boolean;
-  profilePage: boolean;
-  loadingKey: string;
+  loadingKey?: string;
 }
 
 type Props = IProps & StackScreenProps<{navigation?: any}>;
@@ -61,7 +60,7 @@ const HeaderWrapper: React.FC<Props> = (props: Props) => {
     }
   };
 
-  const loading = false; //useLoading(loadingKey);
+  const loading = useLoading(loadingKey);
   if (loading) {
     return (
       <Center>
@@ -72,19 +71,14 @@ const HeaderWrapper: React.FC<Props> = (props: Props) => {
 
   return (
     <>
-      <SafeAreaView style={{flex: 1, backgroundColor: '#FF2D5580'}}>
-        <View style={styles.profilePageTopBarStyles}>
+      <SafeAreaView
+        style={{flex: 1, backgroundColor: colors.background.secondary}}>
+        <View style={styles.topBar}>
           <Btn
             disabled={hideback}
             style={styles.backBtnStyle}
             onPress={() => navigateBack()}>
-            {hideback ? null : (
-              <Row>
-                <BackIcon fill={'#fff'} />
-                <Margin marginRight={10} />
-                <Text style={{color: '#fff'}}>Back</Text>
-              </Row>
-            )}
+            {hideback ? null : <BackIcon fill={'#fff'} />}
           </Btn>
 
           <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
@@ -101,11 +95,11 @@ const HeaderWrapper: React.FC<Props> = (props: Props) => {
           <KeyboardAvoidingScrollView
             showsVerticalScrollIndicator={false}
             scrollEnabled={scroll}
-            style={{backgroundColor: '#fff'}}>
+            style={{backgroundColor: colors.background.bgDark}}>
             {children}
           </KeyboardAvoidingScrollView>
         ) : (
-          <>{children}</>
+          children
         )}
       </SafeAreaView>
     </>
@@ -113,56 +107,3 @@ const HeaderWrapper: React.FC<Props> = (props: Props) => {
 };
 
 export default HeaderWrapper;
-
-const styles = StyleSheet.create({
-  activeTextStyle: {
-    color: 'red',
-  },
-  pageTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#01b3ef',
-  },
-  hidden: {color: '#FAFAFA'},
-  topBarStyles: {
-    width: '100%',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
-    alignItems: 'center',
-    height: 64,
-    backgroundColor: '#FAFAFA',
-    paddingHorizontal: 24,
-    flexDirection: 'row',
-    shadowOffset: {height: 10, width: 0},
-  },
-  profilePageTopBarStyles: {
-    width: '100%',
-    justifyContent: 'space-between',
-    alignSelf: 'center',
-    alignItems: 'center',
-    height: 64,
-    backgroundColor: '#FF2D5580',
-    paddingHorizontal: 24,
-    flexDirection: 'row',
-    shadowOffset: {height: 10, width: 0},
-  },
-  backBtnStyle: {
-    width: 70,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  backIcon: {
-    fontSize: 24,
-    color: '#01b3ef',
-    fontWeight: '600',
-  },
-  profilePageBackIcon: {
-    fontSize: 24,
-    color: 'white',
-    fontWeight: '600',
-  },
-  headerLogo: {
-    width: 50,
-  },
-});

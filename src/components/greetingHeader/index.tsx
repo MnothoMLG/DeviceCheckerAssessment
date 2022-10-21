@@ -1,19 +1,24 @@
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {Padding, Text} from '../../components';
+import strings from '../../constants/strings';
 import {getAuthState} from '../../store/auth/selectors';
 
 const Greeting: React.FC = () => {
-  //ToDo: move this to a wrapper container
   const {name} = useSelector(getAuthState);
+  if (!name) {
+    return <></>;
+  }
   return (
-    <Padding
-      pl={24}
-      pr={24}
-      style={{width: '100%', flexDirection: 'row', justifyContent: 'center'}}>
-      <Text style={{padding: 5}}>{`Hey, ${name}`}</Text>
+    <Padding pl={24} pr={24} style={styles.container}>
+      <Text>{strings.hello.replace('{0}', name!)}</Text>
     </Padding>
   );
 };
 
 export default Greeting;
+
+const styles = StyleSheet.create({
+  container: {width: '100%', flexDirection: 'row', justifyContent: 'center'},
+});

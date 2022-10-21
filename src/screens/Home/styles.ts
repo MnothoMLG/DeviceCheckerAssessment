@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   railStyles: {
     borderRadius: 0,
     borderWidth: 0,
+    padding: 0,
   },
 });
 

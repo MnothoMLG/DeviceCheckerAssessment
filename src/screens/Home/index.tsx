@@ -7,8 +7,10 @@ import styles from './styles';
 import {colors} from '../../theme';
 import Greeting from '../../components/greetingHeader';
 import DiamondIcon from '../../assets/icons/diamond.svg';
-import { useDispatch } from 'react-redux';
-import { logoutRequest } from '../../store/auth/actions';
+import {useDispatch} from 'react-redux';
+import {logoutRequest} from '../../store/auth/actions';
+import strings from '../../constants/strings';
+import routes from '../../navigation/routes';
 
 const Home: React.FC = () => {
   const {navigate} = useNavigation();
@@ -16,6 +18,7 @@ const Home: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Margin mt={48} />
       <Greeting />
       <Margin mb={56} />
       <Padding pl={24} pr={24} style={styles.span}>
@@ -26,7 +29,7 @@ const Home: React.FC = () => {
           onPress={() => {}}
           rounded
           textSize={14}
-          label={'Clear Button'}
+          label={strings.clearBtn}
         />
         <Margin mb={12} />
         <AppButton
@@ -36,7 +39,7 @@ const Home: React.FC = () => {
           onPress={() => {}}
           textSize={14}
           rounded
-          label={'Secondary'}
+          label={strings.secondary}
         />
         <Margin mb={12} />
         <AppButton
@@ -44,7 +47,7 @@ const Home: React.FC = () => {
           variant="light"
           disabled={false}
           onPress={() => {
-            Alert.alert('Are you sure', 'Do you want to log off?', [
+            Alert.alert(strings.sure, strings.confirmLogOff, [
               {
                 text: 'Yes',
                 onPress: () => {
@@ -59,20 +62,21 @@ const Home: React.FC = () => {
           }}
           textSize={14}
           rounded
-          label={'Log Off'}
+          label={strings.logOff}
         />
         <Margin mb={12} />
         <SwipeButton
           height={52}
           shouldResetAfterSuccess
           onSwipeSuccess={() => {
-            navigate('DeviceCheck');
+            // navigate(routes.DEVICE_CHECK_SCREEN);
           }}
           containerStyles={styles.swipeContainer}
           railBackgroundColor={colors.background.bgDark}
           thumbIconStyles={styles.thumbIconStyles}
           titleColor={colors.background.primary}
           titleFontSize={14}
+          railFillBackgroundColor={colors.background.secondary}
           railBorderColor={colors.background.secondary}
           thumbIconBackgroundColor={colors.background.transparent}
           thumbIconBorderColor="rgba(0, 0, 0, 0)"
@@ -83,7 +87,7 @@ const Home: React.FC = () => {
             </View>
           )}
           thumbIconWidth={56}
-          title={'Slide me to continue'}
+          title={strings.slide}
         />
       </Padding>
     </View>

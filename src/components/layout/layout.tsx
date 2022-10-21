@@ -34,6 +34,30 @@ export function Margin({
   );
 }
 
+interface RowProps {
+  marginTop?: number;
+  marginBottom?: number;
+  background?: string;
+  alignHorizontal?:
+    | 'flex-start'
+    | 'center'
+    | 'flex-end'
+    | 'space-between'
+    | 'space-around';
+  flexWrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
+}
+
+export const Row = styled.View<RowProps>`
+  width: 100%;
+  flex-direction: row;
+  margin-top: ${({marginTop}: RowProps) => marginTop || '0'}px;
+  margin-bottom: ${({marginBottom}: RowProps) => marginBottom || '0'}px;
+  background-color: ${({background}: RowProps) => background || 'transparent'};
+  justify-content: ${({alignHorizontal}: RowProps) =>
+    alignHorizontal || 'flex-start'};
+  flex-wrap: ${({flexWrap}: RowProps) => flexWrap || 'wrap'};
+`;
+
 export function Padding({
   pb,
   pl,
