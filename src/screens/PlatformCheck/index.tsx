@@ -5,13 +5,9 @@ import {Alert, NativeModules} from 'react-native';
 const {PlatformCheckModule} = NativeModules;
 
 import styles from './styles';
-import flashMessage from '../../utils/showFlashMessage';
-import {useSelector} from 'react-redux';
-import {getAuthState} from '../../store/auth/selectors';
 import Greeting from '../../components/greetingHeader';
 import HeaderWrapper from '../../components/layout/back-screen';
 import strings from '../../constants/strings';
-import {string} from 'yup/lib/locale';
 
 const PlatformCheck: React.FC = () => {
   const [device, setDevice] = useState<string>('');

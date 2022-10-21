@@ -55,18 +55,20 @@ const Welcome: React.FC = () => {
                     onBlur={() => setFieldTouched('name')}
                     value={values.name}
                     error={errors.name}
+                    testID="name-input"
                     touched={touched.name}
                   />
                   <Margin mt={36} />
                   <AppButton
                     fullWidth
                     rounded
+                    testID="continue-button"
                     disabled={!isValid || !values.name}
                     onPress={() => {
                       login(values.name);
                     }}>
                     <Text style={[styles.text, styles.textBold]}>
-                      {strings.name}
+                      {strings.continue}
                     </Text>
                   </AppButton>
                 </>

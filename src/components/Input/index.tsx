@@ -3,7 +3,7 @@ import React, {Component, useState} from 'react';
 import {TextInput, Text, View, TextInputProps} from 'react-native';
 import styles, {InputLabel} from './Styles';
 import {FormikErrors, FormikTouched} from 'formik';
-import { colors } from '../../theme';
+import {colors} from '../../theme';
 
 interface IProps extends TextInputProps {
   style: Record<string, unknown> | Record<string, unknown>[];
@@ -55,7 +55,11 @@ const Input = ({style = {}, label, required, error, ...props}: IProps) => {
           }}
         />
       </View>
-      {error &&  touched && <Text style={styles.error}>{error}</Text>}
+      {error && touched && (
+        <Text testID={`${label}-validation-error`} style={styles.error}>
+          {error}
+        </Text>
+      )}
     </>
   );
 };
