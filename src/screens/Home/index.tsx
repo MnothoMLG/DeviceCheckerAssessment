@@ -69,7 +69,7 @@ const Home: React.FC = () => {
           height={52}
           shouldResetAfterSuccess
           onSwipeSuccess={() => {
-            // navigate(routes.DEVICE_CHECK_SCREEN);
+            navigate(routes.DEVICE_CHECK_SCREEN);
           }}
           containerStyles={styles.swipeContainer}
           railBackgroundColor={colors.background.bgDark}

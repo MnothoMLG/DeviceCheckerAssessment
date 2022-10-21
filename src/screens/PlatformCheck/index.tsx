@@ -6,9 +6,12 @@ const {PlatformCheckModule} = NativeModules;
 
 import styles from './styles';
 import flashMessage from '../../utils/showFlashMessage';
-import { useSelector } from 'react-redux';
-import { getAuthState } from '../../store/auth/selectors';
+import {useSelector} from 'react-redux';
+import {getAuthState} from '../../store/auth/selectors';
 import Greeting from '../../components/greetingHeader';
+import HeaderWrapper from '../../components/layout/back-screen';
+import strings from '../../constants/strings';
+import {string} from 'yup/lib/locale';
 
 const PlatformCheck: React.FC = () => {
   const [device, setDevice] = useState<string>('');
@@ -21,23 +24,24 @@ const PlatformCheck: React.FC = () => {
   });
 
   return (
-    <Padding pl={24} pr={24} style={styles.container}>
-      <Greeting />
-      <Text>To find out more about your plaform, click below</Text>
-      <Margin mb={36} />
-      <AppButton
-        fullWidth
-        variant="light"
-        disabled={false}
-        onPress={() => {
-          flashMessage(`Your device type is '+ ${device}`);
-          Alert.alert('Bingo', `Your device type is '+ ${device}`);
-        }}
-        rounded
-        textSize={14}
-        label={'Click Here'}
-      />
-    </Padding>
+    <HeaderWrapper onBackPress={() => {}} title={strings.platformCheck}>
+      <Padding pl={24} pr={24} style={styles.container}>
+        <Greeting />
+        <Text>{strings.findOut}</Text>
+        <Margin mb={36} />
+        <AppButton
+          fullWidth
+          variant="light"
+          disabled={false}
+          onPress={() => {
+            Alert.alert('Bingo', strings.deviceType.replace('{0}', device));
+          }}
+          rounded
+          textSize={14}
+          label={strings.clickHere}
+        />
+      </Padding>
+    </HeaderWrapper>
   );
 };
 

@@ -37,7 +37,7 @@ const SignedOutNavigator = () => {
 const SignedInNavigator = () => (
   <SignedInStack.Navigator>
     <Stack.Screen name="Home" component={Home} options={navOptions} />
-    <Stack.Screen name="DeviceCheck" component={DeviceCheck} />
+    <Stack.Screen name="DeviceCheck"  options={navOptions} component={DeviceCheck} />
   </SignedInStack.Navigator>
 );
 
@@ -58,10 +58,7 @@ const RootNavigation: React.FC = () => {
           <Stack.Screen
             name="SignedOut"
             component={SignedOutNavigator}
-            options={{
-              // When logging out, a pop animation feels intuitive
-              animationTypeForReplace: loggedIn ? 'push' : 'pop',
-            }}
+            options={navOptions}
           />
         )}
       </Stack.Navigator>
