@@ -16,6 +16,7 @@ export default {
   findOut: 'To find out more about your plaform, click below',
   deviceType: "You're running on device type  {0}",
   clickHere: 'Click Here',
+  wait: 'Please wait...',
 };
 
 //ToDo:  Separate by page/screen/component

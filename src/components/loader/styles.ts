@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  span: {width: '100%', height: '100%'},
 });
 
 export default styles;

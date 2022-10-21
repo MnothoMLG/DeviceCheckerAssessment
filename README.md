@@ -4,10 +4,11 @@ This project is uses react navigation, redux, redux toolkit, redux logger, redux
 
 ## How to get started
 
-1. Clone reposotory
+1. Clone reposotory 
 2. Run `yarn` on the root directory to install dependencies
-3. Start packager `npx react-native start`
-4. Run the application:
+3. Uncomment line 32 from android/gradle.properties  (org.gradle.jvmargs=-Xmx4608m)
+4. Start packager `npx react-native start`
+
 
 
 <details>
