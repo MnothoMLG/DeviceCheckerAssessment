@@ -1,8 +1,6 @@
 # 🚀 React Native Investec Assessment - October 2022
 
-This project is uses react navigation, redux, redux logger, redux persist and redux saga,
-as well as a bit of theming with react-native-paper. 
-
+This project is uses react navigation, redux, redux toolkit, redux logger, redux persist and redux saga
 
 ## How to get started
 
@@ -11,27 +9,20 @@ as well as a bit of theming with react-native-paper.
 3. Start packager `npx react-native start`
 4. Run the application:
 
-- iOS: 
-  - `npx react-native run-ios`
-
 
 <details>
   <summary>Things to note</summary>
 
+  I used an old project of mine as a boilerplate. I struggled with the newer version a little.
+  Please don't mind the "kwikBite" and some libs that might not be of use:]
   ### What I still need to do
   1. Path resolution
-  2. Unit tests
+  2. More unit tests
+  3. Move code to a new clean
    
-
-
   ### There are sections I would have done differently, but could not due to time constraints
 
-  - Create a central location for all colors used thoroughout the app, similar
-    to what I did for the theming with the `theme-config.ts` file
-  - The ButtonGroup could have also imported the various butttons from their own  locations 
-  - Create a single file with key, value pairs which will contain all the strings used across the app, makes it easier to add in translations
+  - Build the SwipeButton component from scratch
+  - Use localisation for strings and possible translation
   
-  ```js
-
-  ```
 </details>

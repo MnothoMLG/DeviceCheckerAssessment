@@ -18,11 +18,7 @@ const Welcome: React.FC = () => {
     dispatch(loginRequest({name}));
   };
   return (
-    <HeaderWrapper
-      useKeyboardScrollView
-      hideback
-      onBackPress={() => {}}
-      title={'Welcome'}>
+    <HeaderWrapper useKeyboardScrollView hideback title={strings.welcome}>
       <View style={styles.container}>
         <Margin mb={52}>
           <Text>{strings.prompt}</Text>

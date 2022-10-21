@@ -35,7 +35,6 @@ const HeaderWrapper: React.FC<Props> = (props: Props) => {
     title,
     children,
     scroll,
-    onBackPress,
     hideback,
     useKeyboardScrollView,
     loadingKey = '',
@@ -53,11 +52,7 @@ const HeaderWrapper: React.FC<Props> = (props: Props) => {
   };
 
   const navigateBack = () => {
-    if (onBackPress) {
-      return onBackPress();
-    } else if (navigation) {
-      navigation.goBack();
-    }
+    navigation.goBack();
   };
 
   const loading = useLoading(loadingKey);

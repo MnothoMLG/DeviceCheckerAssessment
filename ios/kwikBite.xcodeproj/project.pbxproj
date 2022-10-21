@@ -32,7 +32,7 @@
 		00E356EE1AD99517003FC87E /* kwikBiteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kwikBiteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* kwikBiteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kwikBiteTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* kwikBite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kwikBite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* PlatformChecker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatformChecker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = kwikBite/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = kwikBite/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = kwikBite/Images.xcassets; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* kwikBite.app */,
+				13B07F961A680F5B00A75B9A /* PlatformChecker.app */,
 				00E356EE1AD99517003FC87E /* kwikBiteTests.xctest */,
 			);
 			name = Products;
@@ -202,7 +202,7 @@
 			);
 			name = kwikBite;
 			productName = kwikBite;
-			productReference = 13B07F961A680F5B00A75B9A /* kwikBite.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* PlatformChecker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -523,7 +523,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kwikBite;
-				PRODUCT_NAME = kwikBite;
+				PRODUCT_NAME = PlatformChecker;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -549,7 +549,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kwikBite;
-				PRODUCT_NAME = kwikBite;
+				PRODUCT_NAME = PlatformChecker;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

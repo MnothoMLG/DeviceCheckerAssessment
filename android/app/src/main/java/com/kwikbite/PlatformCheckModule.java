@@ -19,11 +19,10 @@ public class PlatformCheckModule extends ReactContextBaseJavaModule {
     return "PlatformCheckModule";
     }
 
-
     @ReactMethod
     public void getDeviceType(Callback callback) {
         // Check for whether the device has a flash or not
-        callback.invoke(Build.PRODUCT+"Android"); 
+        callback.invoke(Build.MODEL); 
 
     }
 

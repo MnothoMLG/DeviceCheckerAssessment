@@ -26,9 +26,11 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(getDeviceType:(RCTResponseSenderBlock)successCallback)
 
 {
+  NSString *deviceType = [UIDevice currentDevice].model;
+
   struct utsname systemInfo;
      uname(&systemInfo);
-  successCallback(@[[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]]);
+  successCallback(@[deviceType]);
   
 }
 
