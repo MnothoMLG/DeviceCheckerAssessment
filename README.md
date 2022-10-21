@@ -19,7 +19,7 @@ This project is uses react navigation, redux, redux toolkit, redux logger, redux
   ### What I still need to do
   1. Path resolution
   2. More unit tests
-  3. Move code to a new clean
+  3. Move code to a new clean repo / Do the renaming process
    
   ### There are sections I would have done differently, but could not due to time constraints
 
