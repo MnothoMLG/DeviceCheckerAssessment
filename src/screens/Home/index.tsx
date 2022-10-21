@@ -6,15 +6,19 @@ import SwipeButton from 'rn-swipe-button';
 import styles from './styles';
 import {colors} from '../../theme';
 import Greeting from '../../components/greetingHeader';
+import DiamondIcon from '../../assets/icons/diamond.svg';
+import { useDispatch } from 'react-redux';
+import { logoutRequest } from '../../store/auth/actions';
 
 const Home: React.FC = () => {
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
       <Greeting />
       <Margin mb={56} />
-      <Padding pl={24} pr={24} style={{width: '100%'}}>
+      <Padding pl={24} pr={24} style={styles.span}>
         <AppButton
           fullWidth
           variant="clear"
@@ -43,7 +47,9 @@ const Home: React.FC = () => {
             Alert.alert('Are you sure', 'Do you want to log off?', [
               {
                 text: 'Yes',
-                onPress: () => {},
+                onPress: () => {
+                  dispatch(logoutRequest());
+                },
               },
               {
                 text: 'No',
@@ -72,14 +78,9 @@ const Home: React.FC = () => {
           thumbIconBorderColor="rgba(0, 0, 0, 0)"
           railStyles={styles.railStyles}
           thumbIconComponent={() => (
-            <View
-              style={{
-                width: 50,
-                height: 50,
-                backgroundColor: colors.background.primary,
-                borderRadius: 8,
-              }}
-            />
+            <View style={styles.swipeIcon}>
+              <DiamondIcon />
+            </View>
           )}
           thumbIconWidth={56}
           title={'Slide me to continue'}

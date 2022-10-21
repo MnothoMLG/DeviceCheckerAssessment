@@ -9,9 +9,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.background.bgDark,
   },
+  span: {width: '100%'},
   containerStyle: {
     backgroundColor: 'white',
     padding: 20,
+  },
+  swipeIcon: {
+    width: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    backgroundColor: colors.background.primary,
+    borderRadius: 8,
   },
   swipeContainer: {
     borderRadius: 8,

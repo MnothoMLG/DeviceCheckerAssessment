@@ -1,12 +1,14 @@
 import React, {FC} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Input from '../../components/Input';
 import {Formik} from 'formik';
-import {Margin} from '../../components/layout/layout';
+import {Margin } from '../../components/layout/layout';
 // import HeaderWrapper from '../../components/layout/back-screen';
 import {globalValidationScheme} from '../../utils/Validation';
 import {useDispatch} from 'react-redux';
 import {loginRequest} from '../../store/auth/actions';
+import { colors } from '../../theme';
+import { AppButton, Text } from '../../components';
 
 const Welcome: React.FC = () => {
   const dispatch = useDispatch();
@@ -55,14 +57,16 @@ const Welcome: React.FC = () => {
                   touched={touched.name}
                 />
                 <Margin mt={36} />
-                <TouchableOpacity
+                <AppButton
+                  fullWidth
+                  rounded
                   disabled={!isValid}
                   onPress={() => {
                     login(values.name);
                   }}
-                  style={styles.continue}>
+                  >
                   <Text style={[styles.text, styles.textBold]}>Continue</Text>
-                </TouchableOpacity>
+                </AppButton>
               </>
             );
           }}
@@ -79,7 +83,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: colors.background.bgDark,
     paddingTop: 42,
   },
   loginButtonsContainer: {
@@ -88,14 +92,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingVertical: 40,
-  },
-  continue: {
-    height: 42,
-    width: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FF2D55',
-    borderRadius: 5,
   },
   registerButtonsContainer: {
     marginTop: 30,

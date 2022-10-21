@@ -1,8 +1,9 @@
 import {StyleSheet} from 'react-native';
 import styled from 'styled-components/native';
+import {colors} from '../../theme';
 
 export const InputLabel = styled.Text`
-  color: rgba(0, 0, 0, 0.3);
+  color: rgba(76, 179, 233, 0.75);
   font-size: 14px;
   align-self: flex-start;
   margin-bottom: 8px;
@@ -14,7 +15,7 @@ export default StyleSheet.create({
     display: 'flex',
     flexWrap: 'nowrap',
     flexDirection: 'row',
-    borderColor: 'rgba(240, 2, 23, 0.1)',
+    borderColor: colors.background.primary,
     borderRadius: 5,
     borderWidth: 2,
     alignItems: 'center',
@@ -28,7 +29,7 @@ export default StyleSheet.create({
     borderRadius: 5,
     padding: 4,
     fontSize: 15,
-    color: '#00000080',
+    color: colors.background.secondary,
   },
   error: {
     alignSelf: 'flex-start',

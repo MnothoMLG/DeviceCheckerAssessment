@@ -36,13 +36,6 @@ const SignedOutNavigator = () => {
           animationTypeForReplace: loggedIn ? 'push' : 'pop',
         }}
       />
-      <Stack.Screen
-        name="DeviceCheck"
-        component={DeviceCheck}
-        options={{
-          animationTypeForReplace: loggedIn ? 'push' : 'pop',
-        }}
-      />
     </SignedOutStack.Navigator>
   );
 };
@@ -61,7 +54,7 @@ const RootNavigation: React.FC = () => {
     <NavigationContainer>
       <StatusBar barStyle={'dark-content'} />
       <Stack.Navigator headerMode="none">
-        {loggedIn || true ? (
+        {loggedIn ? (
           <Stack.Screen
             name="SignedIn"
             component={SignedInNavigator}

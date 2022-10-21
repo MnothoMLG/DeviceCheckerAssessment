@@ -3,6 +3,7 @@ import React, {Component, useState} from 'react';
 import {TextInput, Text, View, TextInputProps} from 'react-native';
 import styles, {InputLabel} from './Styles';
 import {FormikErrors, FormikTouched} from 'formik';
+import { colors } from '../../theme';
 
 interface IProps extends TextInputProps {
   style: Record<string, unknown> | Record<string, unknown>[];
@@ -37,7 +38,7 @@ const Input = ({style = {}, label, required, error, ...props}: IProps) => {
       <View style={[styles.container, style, focused && styles.brightBorder]}>
         <TextInput
           {...props}
-          placeholderTextColor={'rgba(0,0,0,0.3)'}
+          placeholderTextColor={colors.background.secondary}
           style={[styles.input]}
           placeholder={props.placeholder || ''}
           value={props.value}
