@@ -16,6 +16,10 @@ export interface IRedditPost {
   thumbnail: string;
   url: string;
   title: string;
+  subreddit: string;
+  subreddit_id: string;
+  subreddit_name_prefixed: string;
+  //left out the other fields I won't be using
 }
 
 export interface ISuccessPayload {
@@ -29,12 +33,9 @@ export interface IFetchPayload {
 }
 
 export interface IResponse {
-  data: {
-    dist: number;
-    geo_filter?: string;
-    after: string;
-    before?: string;
-    children: IEntry<IRedditPost, string>[];
-  };
-  kind: string;
+  dist: number;
+  geo_filter?: string;
+  after: string;
+  before?: string;
+  children: IEntry<IRedditPost, string>[];
 }

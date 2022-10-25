@@ -7,37 +7,17 @@ const styles = StyleSheet.create({
     paddingVertical: 48,
     paddingHorizontal: 24,
     alignItems: 'center',
-    backgroundColor: colors.background.border,
+    backgroundColor: colors.typography.static,
+  },
+  sort: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
   },
   span: {width: '100%'},
   containerStyle: {
     backgroundColor: 'white',
     padding: 20,
-  },
-  swipeIcon: {
-    width: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 50,
-    backgroundColor: colors.background.primary,
-    borderRadius: 8,
-  },
-  swipeContainer: {
-    borderRadius: 8,
-    backgroundColor: colors.background.trailYellow,
-    padding: 0,
-    width: '100%',
-    alignSelf: 'center',
-  },
-  thumbIconStyles: {
-    borderRadius: 8,
-    borderWidth: 2,
-    backgroundColor: colors.background.primary,
-  },
-  railStyles: {
-    borderRadius: 0,
-    borderWidth: 0,
-    padding: 0,
   },
 });
 

@@ -9,27 +9,21 @@ import {
   loadMoreRequest,
   loadMoreSuccess,
 } from './actions';
-import {IEntry, IFetchPayload, IRedditPost, IResponse} from './types';
+import {IEntry, IFetchPayload, IResponse} from './types';
 
 export function* fetchData({payload}: {payload: IFetchPayload; type: string}) {
   try {
     const {sort} = payload;
-    const response: AxiosResponse<{
-      data: {
-        dist: number;
-        geo_filter?: string;
-        after: string;
-        before?: string;
-        children: IEntry<IRedditPost, string>[];
-      };
-      kind: string;
-    }> = yield call(() => client.get(`r/aww/${sort.toLowerCase()}/.json`));
+    const response: AxiosResponse<IEntry<IResponse, string>> = yield call(() =>
+      client.get(`r/aww/${sort.toLowerCase()}/.json`),
+    );
+
+    console.log({response});
 
     const data = response.data.data;
     yield put(fetachAllSuccess({posts: data.children, after: data.after}));
   } catch (err) {
     yield put(fetachAllError());
-
     //if for some weird reason, the delay crashes ;]
   }
 }
@@ -43,8 +37,12 @@ export function* loadMoreData({
   try {
     const {sort, after} = payload;
 
-    const response: AxiosResponse<IResponse> = yield call(() =>
-      client.get(`r/aww/${sort.toLowerCase()}/.json?after=${after}`),
+    const response: AxiosResponse<IEntry<IResponse, string>> = yield call(() =>
+      client.get(`r/aww/${sort.toLowerCase()}/.json`, {
+        params: {
+          after,
+        },
+      }),
     );
     const data = response.data.data;
     yield put(loadMoreSuccess({posts: data.children, after: data.after}));

@@ -1,4 +1,30 @@
 export default {
+  home: {
+    title: 'A subreddit for cute and cuddly pictures',
+  },
+  common: {
+    apply: 'Apply',
+    sort: 'Sort',
+  },
+  loading: {
+    more: 'Loading more',
+  },
+  post: {
+    author: 'Posted by {0}',
+    sub: 'Subreddit: {0}',
+  },
+
+  alert: {
+    title: 'View Post',
+    message:
+      'Do you wish to view this post in app or using your phone browser ? ',
+    left: {
+      label: 'Open browser',
+    },
+    right: {
+      label: 'Stay in app',
+    },
+  },
   defaultAlertMsg: 'Hi, I need your help. Urgently. Here are my co-ordinates',
   continue: 'Continue',
   welcome: 'Welcome',
@@ -19,4 +45,4 @@ export default {
   wait: 'Please wait...',
 };
 
-//ToDo:  Separate by page/screen/component
+//Possible ToDo: use i18n for translation & locale;

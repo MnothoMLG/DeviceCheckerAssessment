@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {Image} from '..';
 
 export const CardButton = styled.TouchableOpacity`
   background: #fff;
@@ -9,7 +10,7 @@ export const CardButton = styled.TouchableOpacity`
   margin: 12px;
 `;
 
-export const Thumbnail = styled.Image`
+export const Thumbnail = styled(Image)`
   width: 100px;
   height: 100px;
   border-bottom-left-radius: 5px;

@@ -7,6 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import {colors} from '../../theme';
 import Arrow from '../../assets/icons/go.svg';
 import {IRedditPost, IEntry} from '../../store/data/types';
+import strings from '../../constants/strings';
 
 interface Props {
   entry: IEntry<IRedditPost, string>;
@@ -27,9 +28,17 @@ export const ListItem = ({entry, onPress}: Props) => {
           <Text mb={4} size={12} color={colors.background.secondary}>
             {entry.data.title}
           </Text>
-          <Text size={10} color={colors.typography.inactive}>
-            {`Author : ${entry.data.author}`}
-          </Text>
+          <View>
+            <Text size={10} color={colors.background.inactivePrimary}>
+              {strings.post.sub.replace(
+                '{0}',
+                entry.data.subreddit || entry.data.subreddit_name_prefixed,
+              )}
+            </Text>
+            <Text size={10} color={colors.typography.inactive}>
+              {strings.post.author.replace('{0}', entry.data.author)}
+            </Text>
+          </View>
         </Padding>
         <View style={styles.arrow}>
           <Arrow fill="#000" />

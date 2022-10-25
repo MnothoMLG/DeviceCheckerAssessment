@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   button: {height: 40, paddingHorizontal: 12, paddingVertical: 10},
   overlay: {
     flex: 1,
-    backgroundColor: `${colors.background.black}D6`,
+    backgroundColor: `${colors.background.bgDark}D6`,
     width: '100%',
     height: '100%',
     paddingTop: '50%',

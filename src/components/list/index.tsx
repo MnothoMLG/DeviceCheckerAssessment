@@ -1,42 +1,67 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {AppButton, ListItem, Margin, Padding, Row, Text} from '../';
-import styles from './styles';
+import React, {useState} from 'react';
+import {FlatList, Linking, View} from 'react-native';
+import {ListItem} from '../';
 import {useDispatch, useSelector} from 'react-redux';
-import SortIcon from '../../assets/icons/sort.svg';
 import {
-  fetachAllRequest,
   FETCH_MORE_LOADING_KEY,
   loadMoreRequest,
 } from '../../store/data/actions';
-import {getDataState, getPostsSelector} from '../../store/data/selectors';
-import {colors} from '../../theme';
-import SortModal from '../../components/sortModal';
+import {getDataState} from '../../store/data/selectors';
 import {useLoading} from '../../hooks/useLoadingHook';
+import {setAndShowFeedback} from '../../store/alert/actions';
+import {openURL} from '../../utils/helpers';
+import LoadingMore from '../loader/LoadingMore';
+import {IEntry, IRedditPost} from '../../store/data/types';
+import strings from '../../constants/strings';
 
-const ItemsList = () => {
-  const posts = useSelector(getPostsSelector);
+interface Props {
+  data: IEntry<IRedditPost, string>[];
+}
+
+const RedditItemList = ({data}: Props) => {
   const {after, sort} = useSelector(getDataState);
+  const {
+    alert: {title, message, left, right},
+  } = strings;
   const dispatch = useDispatch();
-  const [showSort, setShowSort] = useState(false);
+  const [] = useState(false);
   const loadingMore = useLoading(FETCH_MORE_LOADING_KEY);
-
-  useEffect(() => {
-    dispatch(fetachAllRequest({sort}));
-  }, []);
 
   return (
     <FlatList
-      data={posts}
+      data={data}
       ListEmptyComponent={<View />}
-      renderItem={({item}) => <ListItem entry={item} />}
+      renderItem={({item}) => (
+        <ListItem
+          onPress={() => {
+            /*  pop up is bad UX, but since I couldn't figure out how to best display
+          the reddit post, I did this. I could've created a separate screen for the post
+          but the instruction said "original reddit post"
+          */
+            dispatch(
+              setAndShowFeedback({
+                title,
+                message,
+                left: {
+                  ...left,
+                  onPress: () => {
+                    Linking.openURL(item.data.url);
+                  },
+                },
+                right: {
+                  ...right,
+                  onPress: () => {
+                    openURL(item.data.url);
+                  },
+                },
+                variant: 'success',
+                visible: true,
+              }),
+            );
+          }}
+          entry={item}
+        />
+      )}
       onEndReached={() => {
         dispatch(
           loadMoreRequest({
@@ -45,16 +70,9 @@ const ItemsList = () => {
           }),
         );
       }}
-      ListFooterComponent={
-        loadingMore ? (
-          <Margin style={{alignItems: 'center'}} mb={48} mt={24}>
-            <ActivityIndicator />
-            <Text>Loading more</Text>
-          </Margin>
-        ) : null
-      }
+      ListFooterComponent={loadingMore ? <LoadingMore /> : null}
     />
   );
 };
 
-export default ItemsList;
+export default RedditItemList;

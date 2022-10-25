@@ -1,7 +1,6 @@
-import { colors } from '@theme';
-import { Linking } from 'react-native';
-import { InAppBrowser } from 'react-native-inappbrowser-reborn';
-import i18n from 'translation';
+import {colors} from '../theme';
+import {Linking} from 'react-native';
+import {InAppBrowser} from 'react-native-inappbrowser-reborn';
 
 export const openURL = async (url: string) => {
   try {
@@ -43,5 +42,3 @@ export const openURL = async (url: string) => {
     }
   } catch (error) {}
 };
-
-export const getLocalValue = (name: string): string => i18n.t(name);

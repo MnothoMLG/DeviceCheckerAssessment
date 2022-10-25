@@ -13,7 +13,7 @@ export interface AppButtonProps extends TouchableOpacityProps {
   fullWidth?: boolean;
   rounded?: boolean;
   loading?: boolean;
-  variant?: 'basic' | 'dark' | 'light' | 'white' | 'clear';
+  variant?: 'basic' | 'dark' | 'light' | 'clear';
   textSize?: number;
 }
 
@@ -53,7 +53,7 @@ export const AppButton: FC<AppButtonProps> = ({
 
 const textStyle = StyleSheet.create({
   basic: {
-    color: colors.background.black,
+    color: colors.typography.static,
   },
   clear: {
     color: colors.typography.blue,

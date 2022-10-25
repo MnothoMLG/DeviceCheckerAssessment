@@ -1,7 +1,7 @@
 // TODO: maybe required re-name because design not followin patters or tokens
 
 const typography = {
-  inactive: '#BABCB5',
+  inactive: '#A0A2A4',
   static: '#FFFFFF',
   blue: '#5483B8',
   success: '#75D77F',
