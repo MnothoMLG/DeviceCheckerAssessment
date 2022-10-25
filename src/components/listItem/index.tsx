@@ -14,6 +14,8 @@ interface Props {
   onPress?: () => void;
 }
 export const ListItem = ({entry, onPress}: Props) => {
+  const {subreddit, thumbnail, title, author} = entry.data;
+  console.log({subreddit, thumbnail, title, author});
   return (
     <Animatable.View duration={500} animation="fadeInUp">
       <CardButton onPress={onPress} style={styles.card}>
