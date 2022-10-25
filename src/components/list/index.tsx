@@ -30,6 +30,7 @@ const RedditItemList = ({data}: Props) => {
   return (
     <FlatList
       data={data}
+      showsVerticalScrollIndicator={false}
       ListEmptyComponent={<View />}
       renderItem={({item}) => (
         <ListItem

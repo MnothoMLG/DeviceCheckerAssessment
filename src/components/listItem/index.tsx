@@ -25,7 +25,13 @@ export const ListItem = ({entry, onPress}: Props) => {
           }}
         />
         <Padding style={styles.content} pt={8} pb={8} pl={8} pr={8}>
-          <Text mb={4} size={12} color={colors.background.secondary}>
+          <Text
+            textBreakStrategy="simple"
+            ellipsizeMode="tail"
+            mb={4}
+            numberOfLines={3}
+            size={12}
+            color={colors.background.secondary}>
             {entry.data.title}
           </Text>
           <View>
@@ -53,12 +59,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
   },
-  content: {justifyContent: 'space-between'},
+  content: {
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingRight: 24,
+    height: 100,
+  },
   arrow: {
     width: 20,
     height: 20,
     position: 'absolute',
     alignSelf: 'center',
-    right: 8,
+    right: 0,
   },
 });
