@@ -25,7 +25,11 @@ export const dataReducer = createReducer(INITIAL_STATE, builder => {
     .addCase(loadMoreSuccess, (state, action) => {
       if (action.payload) {
         const {payload} = action;
-        return {...state, posts: [...state.posts, ...payload.posts]};
+        return {
+          ...state,
+          after: payload.after,
+          posts: [...state.posts, ...payload.posts],
+        };
       }
     });
 });

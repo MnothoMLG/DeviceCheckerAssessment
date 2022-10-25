@@ -8,10 +8,14 @@ import {colors} from '../../theme';
 import Arrow from '../../assets/icons/go.svg';
 import {IRedditPost, IEntry} from '../../store/data/types';
 
-export const ListItem = ({entry}: {entry: IEntry<IRedditPost, string>}) => {
+interface Props {
+  entry: IEntry<IRedditPost, string>;
+  onPress?: () => void;
+}
+export const ListItem = ({entry, onPress}: Props) => {
   return (
     <Animatable.View duration={500} animation="fadeInUp">
-      <CardButton style={styles.card}>
+      <CardButton onPress={onPress} style={styles.card}>
         <Thumbnail
           source={{
             uri:

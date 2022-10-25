@@ -9,7 +9,7 @@ import {Text} from '..';
 import strings from '../../constants/strings';
 
 export function LoadingOverlay() {
-  const isOpen = false && useLoading(FETCH_ALL_LOADING_KEY);
+  const isOpen = useLoading(FETCH_ALL_LOADING_KEY);
 
   return (
     <Modal transparent style={styles.span} visible={isOpen}>

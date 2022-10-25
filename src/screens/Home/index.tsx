@@ -27,6 +27,7 @@ import {getDataState, getPostsSelector} from '../../store/data/selectors';
 import {colors} from '../../theme';
 import SortModal from '../../components/sortModal';
 import {useLoading} from '../../hooks/useLoadingHook';
+import {setAndShowFeedback} from '../../store/alert/actions';
 
 const Home: React.FC = () => {
   const posts = useSelector(getPostsSelector);
@@ -56,7 +57,27 @@ const Home: React.FC = () => {
         <FlatList
           data={posts}
           ListEmptyComponent={<View />}
-          renderItem={({item}) => <ListItem entry={item} />}
+          renderItem={({item}) => (
+            <ListItem
+              onPress={() => {
+                dispatch(
+                  setAndShowFeedback({
+                    title: 'View Post',
+                    message:
+                      'Do you wish to view this post in app or using your phone browser ? ',
+                    left: {label: 'Open browser', onPress: () => {}},
+                    right: {
+                      label: 'Stay in app',
+                      onPress: () => {},
+                    },
+                    variant: 'success',
+                    visible: true,
+                  }),
+                );
+              }}
+              entry={item}
+            />
+          )}
           onEndReached={() => {
             dispatch(
               loadMoreRequest({
@@ -67,9 +88,11 @@ const Home: React.FC = () => {
           }}
           ListFooterComponent={
             loadingMore ? (
-              <Margin mb={48} mt={24}>
+              <Margin style={{alignItems: 'center'}} mb={68} mt={24}>
                 <ActivityIndicator />
-                <Text>Loading more</Text>
+                <Text mt={4} color={colors.background.bgDark}>
+                  Loading more
+                </Text>
               </Margin>
             ) : null
           }
