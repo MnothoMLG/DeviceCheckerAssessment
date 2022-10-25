@@ -22,7 +22,6 @@ This project is uses react navigation, redux, redux toolkit, redux logger, redux
   3. Move code to a new clean repo / Do the renaming process
    
   ### There are sections I would have done differently, but could not due to time constraints
-
   - Build the SwipeButton component from scratch
   - Use localisation for strings and possible translation
   

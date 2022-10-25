@@ -1,9 +1,9 @@
 import {combineReducers} from '@reduxjs/toolkit';
-import {authReducer} from './auth/reducer';
+import {dataReducer} from './data/reducer';
 import {loadingReducer} from './loading/reducer';
 
 export const reducers = combineReducers({
-  auth: authReducer,
+  data: dataReducer,
   loadingReducer,
 });
 

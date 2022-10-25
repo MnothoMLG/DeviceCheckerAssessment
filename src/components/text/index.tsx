@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import {colors} from '../../theme';
 import {FC} from 'react';
 import {TextProps, Text as RnText} from 'react-native';

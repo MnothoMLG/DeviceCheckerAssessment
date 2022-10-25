@@ -1,15 +1,15 @@
 import styles from './styles';
 import {useLoading} from '../../hooks/useLoadingHook';
-import {LOGIN_LOADING_KEY} from '../../store/auth/actions';
+import {FETCH_ALL_LOADING_KEY} from '../../store/data/actions';
 import {ActivityIndicator} from 'react-native-paper';
 import React from 'react';
-import {Modal, StyleSheet, View} from 'react-native';
+import {Modal, View} from 'react-native';
 import {Margin} from '../layout/layout';
 import {Text} from '..';
 import strings from '../../constants/strings';
 
 export function LoadingOverlay() {
-  const isOpen = useLoading(LOGIN_LOADING_KEY);
+  const isOpen = false && useLoading(FETCH_ALL_LOADING_KEY);
 
   return (
     <Modal transparent style={styles.span} visible={isOpen}>
@@ -22,4 +22,3 @@ export function LoadingOverlay() {
   );
 }
 export default LoadingOverlay;
-

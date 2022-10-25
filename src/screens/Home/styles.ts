@@ -4,10 +4,10 @@ import {colors} from '../../theme';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
     paddingVertical: 48,
+    paddingHorizontal: 24,
     alignItems: 'center',
-    backgroundColor: colors.background.bgDark,
+    backgroundColor: colors.background.border,
   },
   span: {width: '100%'},
   containerStyle: {
