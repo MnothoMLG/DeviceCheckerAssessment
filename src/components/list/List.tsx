@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {FlatList, Linking, View} from 'react-native';
-import {ListItem} from '../';
+import {ListItem} from '..';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   FETCH_MORE_LOADING_KEY,
@@ -18,7 +18,7 @@ interface Props {
   data: IEntry<IRedditPost, string>[];
 }
 
-const RedditItemList = ({data}: Props) => {
+export const RedditItemList = ({data}: Props) => {
   const {after, sort} = useSelector(getDataState);
   const {
     alert: {title, message, left, right},

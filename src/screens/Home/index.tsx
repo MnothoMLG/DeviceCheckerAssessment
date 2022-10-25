@@ -9,6 +9,7 @@ import {getDataState, getPostsSelector} from '../../store/data/selectors';
 import {colors} from '../../theme';
 import SortModal from '../../components/sortModal';
 import strings from '../../constants/strings';
+import Logo from '../../assets/icons/reddit.svg'
 
 const Home = () => {
   const posts = useSelector(getPostsSelector);
@@ -22,6 +23,7 @@ const Home = () => {
 
   return [
     <View style={styles.container}>
+      <Logo />
       <Text bold color={colors.background.bgDark} align="center" size={20}>
         {strings.home.title}
       </Text>

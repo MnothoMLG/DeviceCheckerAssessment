@@ -20,6 +20,7 @@ export const ListItem = ({entry, onPress}: Props) => {
     <Animatable.View duration={500} animation="fadeInUp">
       <CardButton onPress={onPress} style={styles.card}>
         <Thumbnail
+          testId="thumbnail"
           source={{
             uri:
               entry.data.thumbnail ||

@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from '@testing-library/react-native';
 import {MockReduxProvider} from '../../../__tests__/mock';
-import RedditItemList from '..';
+import {RedditItemList} from '../List';
 
 const mockProps = {};
 jest.mock('../../../hooks/useLoadingHook', () => ({
@@ -16,7 +16,7 @@ jest.mock('@react-navigation/stack', () => ({
   createStackNavigator: jest.fn(),
 }));
 
-describe('#WelcomeScreen', () => {
+describe('#RedditList', () => {
   let props = {
     data: [
       {
@@ -42,8 +42,9 @@ describe('#WelcomeScreen', () => {
   it('Render empty list', () => {
     props.data = [];
     const {queryByTestId} = render(<RedditItemList {...props} />);
-    expect(queryByTestId('loading-more')).toBeTruthy();
+    expect(queryByTestId('loading-more')).toBeDefined();
   });
+
   it('Render one post', () => {
     const {queryByTestId} = render(MockList);
     expect(queryByTestId('loading-more')).toBeNull();

@@ -16,7 +16,7 @@ export function LoadingOverlay() {
       <View style={styles.modal}>
         <ActivityIndicator size="large" />
         <Margin mt={40} />
-        <Text>{strings.wait}</Text>
+        <Text>{strings.loading.wait}</Text>
       </View>
     </Modal>
   );
