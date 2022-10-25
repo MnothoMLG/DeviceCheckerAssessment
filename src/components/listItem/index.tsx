@@ -13,7 +13,7 @@ interface Props {
   entry: IEntry<IRedditPost, string>;
   onPress?: () => void;
 }
-export const ListItem = ({entry, onPress}: Props) => {
+export const ListItem: React.FC<Props> = ({entry, onPress}) => {
   const {subreddit, thumbnail, title, author} = entry.data;
   console.log({subreddit, thumbnail, title, author});
   return (

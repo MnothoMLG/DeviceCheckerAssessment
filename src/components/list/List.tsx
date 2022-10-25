@@ -18,7 +18,7 @@ interface Props {
   data: IEntry<IRedditPost, string>[];
 }
 
-export const RedditItemList = ({data}: Props) => {
+export const RedditItemList: React.FC<Props> = ({data}) => {
   const {after, sort} = useSelector(getDataState);
   const {
     alert: {title, message, left, right},
